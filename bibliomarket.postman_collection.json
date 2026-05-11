@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "Bibliomarket API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Health check",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:3000/"
+          }
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Tu Nombre\",\n  \"email\": \"tuemail@ejemplo.com\",\n  \"password\": \"123456\"\n}"
+            },
+            "url": "http://localhost:3000/api/auth/register"
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"tuemail@ejemplo.com\",\n  \"password\": \"123456\"\n}"
+            },
+            "url": "http://localhost:3000/api/auth/login"
+          }
+        }
+      ]
+    }
+  ]
+}
