@@ -23,6 +23,7 @@ enum BookStatus {
   AVAILABLE
   RESERVED
   SOLD
+  CANCELLED
 }
 
 enum ReservationStatus {
