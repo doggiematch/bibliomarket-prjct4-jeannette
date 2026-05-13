@@ -13,10 +13,10 @@ enum Role {
 }
 
 enum Condition {
-  LIKE_NEW
-  GOOD
-  ACCEPTABLE
-  POOR
+  ComoNuevo
+  BuenEstado
+  Aceptable
+  ConDefectos
 }
 
 enum BookStatus {

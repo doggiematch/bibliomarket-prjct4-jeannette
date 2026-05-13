@@ -5,6 +5,11 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
+  await prisma.reservation.deleteMany();
+  await prisma.book.deleteMany();
+  await prisma.genre.deleteMany();
+  await prisma.user.deleteMany();
+
   const genres = await Promise.all([
     prisma.genre.upsert({
       where: { name: "Ficción" },
@@ -69,7 +74,7 @@ async function main() {
       title: "Cien años de soledad",
       author: "Gabriel García Márquez",
       price: 8.5,
-      condition: "GOOD",
+      condition: "BuenEstado",
       description:
         "Edición de bolsillo en buen estado, algunas anotaciones a lápiz en los primeros capítulos.",
       genreId: genres[0].id,
@@ -82,7 +87,7 @@ async function main() {
       title: "Dune",
       author: "Frank Herbert",
       price: 12.0,
-      condition: "LIKE_NEW",
+      condition: "ComoNuevo",
       description:
         "Prácticamente nuevo, leído una sola vez. Sin marcas ni anotaciones.",
       genreId: genres[1].id,
@@ -95,7 +100,7 @@ async function main() {
       title: "Clean Code",
       author: "Robert C. Martin",
       price: 15.0,
-      condition: "ACCEPTABLE",
+      condition: "ConDefectos",
       description:
         "Portada con desgaste pero interior en perfecto estado. Imprescindible para cualquier programador.",
       genreId: genres[3].id,

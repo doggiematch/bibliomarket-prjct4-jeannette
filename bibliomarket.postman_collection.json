@@ -3,39 +3,187 @@
     "name": "Bibliomarket API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "bookId",
+      "value": "1"
+    }
+  ],
   "item": [
     {
-      "name": "Auth",
+      "name": "Health",
       "item": [
         {
           "name": "Health check",
           "request": {
             "method": "GET",
-            "url": "http://localhost:3000/"
+            "url": "{{baseUrl}}/"
           }
-        },
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
         {
           "name": "Register",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"name\": \"Tu Nombre\",\n  \"email\": \"tuemail@ejemplo.com\",\n  \"password\": \"123456\"\n}"
             },
-            "url": "http://localhost:3000/api/auth/register"
+            "url": "{{baseUrl}}/api/auth/register"
           }
         },
         {
           "name": "Login",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"tuemail@ejemplo.com\",\n  \"password\": \"123456\"\n}"
+              "raw": "{\n  \"email\": \"carlos@example.com\",\n  \"password\": \"user123\"\n}"
             },
-            "url": "http://localhost:3000/api/auth/login"
+            "url": "{{baseUrl}}/api/auth/login"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Books",
+      "item": [
+        {
+          "name": "Get books",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/books"
+          }
+        },
+        {
+          "name": "Get books by genre",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/books?genreId=1"
+          }
+        },
+        {
+          "name": "Get book by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/books/{{bookId}}"
+          }
+        },
+        {
+          "name": "Create book",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Libro de prueba\",\n  \"author\": \"Autora de prueba\",\n  \"price\": 12.5,\n  \"condition\": \"BuenEstado\",\n  \"genreId\": 1,\n  \"description\": \"Descripción de prueba suficientemente larga para superar la validación.\",\n  \"isbn\": \"9780000000000\",\n  \"coverUrl\": \"https://example.com/cover.jpg\",\n  \"year\": 2024\n}"
+            },
+            "url": "{{baseUrl}}/api/books"
+          }
+        },
+        {
+          "name": "Update book",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Libro de prueba editado\",\n  \"price\": 10.99,\n  \"condition\": \"Aceptable\"\n}"
+            },
+            "url": "{{baseUrl}}/api/books/{{bookId}}"
+          }
+        },
+        {
+          "name": "Delete book",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/books/{{bookId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Genres",
+      "item": [
+        {
+          "name": "Get genres",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/genres"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reservations",
+      "item": [
+        {
+          "name": "Create reservation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookId\": 1\n}"
+            },
+            "url": "{{baseUrl}}/api/reservations"
           }
         }
       ]

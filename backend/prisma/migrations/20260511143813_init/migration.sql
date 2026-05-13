@@ -2,7 +2,7 @@
 CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
 
 -- CreateEnum
-CREATE TYPE "Condition" AS ENUM ('LIKE_NEW', 'GOOD', 'ACCEPTABLE', 'POOR');
+CREATE TYPE "Condition" AS ENUM ('ComoNuevo', 'BuenEstado', 'Aceptable', 'ConDefectos');
 
 -- CreateEnum
 CREATE TYPE "BookStatus" AS ENUM ('AVAILABLE', 'RESERVED', 'SOLD');

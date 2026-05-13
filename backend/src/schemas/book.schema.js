@@ -4,7 +4,7 @@ export const createBookSchema = z.object({
   title: z.string().min(5, "El título debe tener al menos 5 caracteres"),
   author: z.string().min(2, "El autor debe tener al menos 2 caracteres"),
   price: z.number().positive("El precio debe ser un número positivo"),
-  condition: z.enum(["LIKE_NEW", "GOOD", "ACCEPTABLE", "POOR"], {
+  condition: z.enum(["ComoNuevo", "BuenEstado", "Aceptable", "ConDefectos"], {
     errorMap: () => ({ message: "Condición no válida" }),
   }),
   genreId: z.number().int().positive("El género es obligatorio"),

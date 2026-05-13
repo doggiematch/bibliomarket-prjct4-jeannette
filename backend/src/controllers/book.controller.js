@@ -6,13 +6,31 @@ const include = {
   _count: { select: { reservations: true } },
 };
 
+const conditionValues = {
+  "COMO NUEVO": "ComoNuevo",
+  "BUEN ESTADO": "BuenEstado",
+  ACEPTABLE: "Aceptable",
+  "CON DEFECTOS": "ConDefectos",
+  "Como nuevo": "ComoNuevo",
+  "Buen estado": "BuenEstado",
+  Aceptable: "Aceptable",
+  "Con defectos": "ConDefectos",
+  ComoNuevo: "ComoNuevo",
+  BuenEstado: "BuenEstado",
+  ConDefectos: "ConDefectos",
+  LIKE_NEW: "ComoNuevo",
+  GOOD: "BuenEstado",
+  ACCEPTABLE: "Aceptable",
+  POOR: "ConDefectos",
+};
+
 export const getBooks = async (req, res, next) => {
   try {
     const { genreId, minPrice, maxPrice, condition } = req.query;
     const where = { status: "AVAILABLE" };
 
     if (genreId) where.genreId = Number(genreId);
-    if (condition) where.condition = condition;
+    if (condition) where.condition = conditionValues[condition] || condition;
     if (minPrice)
       where.price = { ...(where.price || {}), gte: Number(minPrice) };
     if (maxPrice)
