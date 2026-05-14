@@ -8,7 +8,7 @@ Marketplace de libros de segunda mano donde los usuarios pueden publicar, buscar
 
 - **Backend:** Node.js v24 + Express v5 + Prisma v6 + PostgreSQL + JWT + Zod + bcryptjs
 - **Frontend:** React + React Router + CSS Modules
-- **Tests:** (comenzado)
+- **Tests:** auth (registro/login), books (listado/detalle/auth), reservations (crear/validar estado)
 - **Entorno:** ES Modules (`import/export`)
 
 ## Tecnologías y versiones backend (ver package.json)
@@ -186,7 +186,7 @@ PORT=3000
 - [x] Servidor corriendo en `http://localhost:3000`
 - [x] Endpoint `POST /api/auth/register` probado en Postman — devuelve `user` + `token`
 
-### 🔄 Día 2 — Backend: funciones principales
+### ✅ Día 2 — Backend: funciones principales
 
 - [x] Endpoints principales del recurso `Book`: listar, detalle, crear, editar y eliminar/cancelar publicación
 - [x] Endpoint de géneros (`GET /api/genres`) para alimentar el formulario del frontend
@@ -199,7 +199,7 @@ PORT=3000
 - [x] Tests iniciales para endpoints de libros con Vitest + Supertest
 - [ ] Ampliar tests a auth, reservas, géneros y casos protegidos
 
-### ⏳ Día 3 — Frontend
+### ✅ Día 3 — Frontend
 
 - [x] Estructura base del frontend con React Router
 - [x] Páginas principales: Home, Login y Registro
@@ -215,7 +215,7 @@ PORT=3000
 
 > **Nota sobre Open Library:** la app usa Open Library como API pública para ayudar a completar los datos de los libros, pero sus respuestas pueden ser muy lentas. Para probar la búsqueda con un ejemplo directo, se puede usar esta página: https://openlibrary.org/works/OL59077W/Marilyn_Monroe?edition=key%3A/books/OL9129006M. O su ISBN concreto que funciona es `9788433966551`.
 
-### ⏳ Día 4 — Integración y pulido
+### ✅ Día 4 — Integración y pulido
 
 - [ ] Integración externa opcional (n8n webhook, email, etc.) — no integrada por ser opcional
 - [ ] Mejorar el diseño responsive — pendiente
@@ -223,7 +223,7 @@ PORT=3000
 - [x] Manejo de errores en el frontend: estados de carga, mensajes de error y empty states
 - [x] Tests adicionales — pendiente ampliar cobertura
 
-### ⏳ Día 5 — Despliegue y presentación
+### 🔄 Día 5 — Despliegue y presentación
 
 ## Rama activa
 
