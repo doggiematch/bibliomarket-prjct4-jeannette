@@ -17,6 +17,19 @@ export const verifyToken = (req, res, next) => {
   }
 };
 
+export const optionalAuth = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return next();
+
+  try {
+    req.user = jwt.verify(token, process.env.JWT_SECRET);
+  } catch {
+    req.user = null;
+  }
+
+  next();
+};
+
 export const requireRole =
   (...roles) =>
   (req, res, next) => {

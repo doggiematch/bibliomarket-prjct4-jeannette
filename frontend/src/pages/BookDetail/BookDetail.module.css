@@ -41,12 +41,6 @@
   margin-bottom: 1rem;
 }
 
-.description {
-  color: #374151;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-}
-
 .meta {
   display: flex;
   flex-direction: column;
@@ -58,6 +52,22 @@
 
 .meta strong {
   color: #111827;
+}
+
+.textBlock {
+  margin-bottom: 1.5rem;
+}
+
+.textBlock h2 {
+  color: #111827;
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+.textBlock p {
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
 }
 
 .footer {
@@ -99,6 +109,37 @@
 
 .btnEdit:hover {
   background-color: #f3f4f6;
+}
+
+.btnFavorite {
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: 6px;
+  color: #92400e;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 0.55rem 1rem;
+}
+
+.btnFavorite:disabled {
+  cursor: default;
+  opacity: 0.75;
+}
+
+.messageSellerActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.btnMessageSeller {
+  background: #1e3a5f;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: default;
+  font-size: 0.95rem;
+  padding: 0.6rem 1rem;
 }
 
 .success {

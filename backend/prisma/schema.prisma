@@ -43,6 +43,7 @@ model User {
   createdAt    DateTime      @default(now())
   books        Book[]
   reservations Reservation[]
+  favorites    Favorite[]
 }
 
 model Genre {
@@ -58,6 +59,8 @@ model Book {
   isbn         String?
   coverUrl     String?
   year         Int?
+  language     String?
+  synopsis     String?
   condition    Condition
   price        Float
   status       BookStatus    @default(AVAILABLE)
@@ -68,6 +71,7 @@ model Book {
   genre        Genre         @relation(fields: [genreId], references: [id])
   genreId      Int
   reservations Reservation[]
+  favorites    Favorite[]
 }
 
 model Reservation {
@@ -79,4 +83,15 @@ model Reservation {
   bookId    Int
   buyer     User              @relation(fields: [buyerId], references: [id])
   buyerId   Int
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  book      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  bookId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+
+  @@unique([bookId, userId])
 }

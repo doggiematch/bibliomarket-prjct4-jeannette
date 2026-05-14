@@ -8,6 +8,7 @@ import Register from "./pages/Register/Register.jsx";
 import BookList from "./pages/BookList/BookList.jsx";
 import BookDetail from "./pages/BookDetail/BookDetail.jsx";
 import BookForm from "./pages/BookForm/BookForm.jsx";
+import MyBooks from "./pages/MyBooks/MyBooks.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 
 export default function App() {
@@ -21,13 +22,14 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/books" element={<BookList />} />
           <Route
-            path="/books/:id"
+            path="/my-books"
             element={
-              <ProtectedRoute>
-                <BookDetail />
+              <ProtectedRoute roles={["USER", "ADMIN"]}>
+                <MyBooks />
               </ProtectedRoute>
             }
           />
+          <Route path="/books/:id" element={<BookDetail />} />
           <Route
             path="/books/new"
             element={

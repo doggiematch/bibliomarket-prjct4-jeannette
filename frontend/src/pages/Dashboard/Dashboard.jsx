@@ -10,32 +10,40 @@ export default function Dashboard() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${API_URL}/api/books`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    })
-      .then((res) => res.json())
-      .then((data) => setBooks(data))
-      .catch(() => setError("No se pudieron cargar los libros"))
-      .finally(() => setLoading(false));
+    const load = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/books`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        });
+        if (!res.ok) throw new Error("Error del servidor");
+        const data = await res.json();
+        setBooks(data);
+      } catch {
+        setError("No se pudieron cargar los libros");
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
   }, []);
 
   async function handleCancel(id) {
-    const confirmed = window.confirm(
-      "¿Seguro que quieres cancelar este libro?",
-    );
+    const confirmed = window.confirm("¿Seguro que quieres cancelar?");
     if (!confirmed) return;
 
-    const res = await fetch(`${API_URL}/api/books/${id}`, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    });
-
-    if (res.ok) {
+    try {
+      const res = await fetch(`${API_URL}/api/books/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      if (!res.ok) throw new Error("No se pudo cancelar");
       setBooks((prev) =>
         prev.map((book) =>
           book.id === id ? { ...book, status: "CANCELLED" } : book,
         ),
       );
+    } catch {
+      setError("No se pudo cancelar");
     }
   }
 

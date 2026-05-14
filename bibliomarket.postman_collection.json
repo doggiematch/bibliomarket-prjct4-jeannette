@@ -15,6 +15,10 @@
     {
       "key": "bookId",
       "value": "1"
+    },
+    {
+      "key": "reservationId",
+      "value": "1"
     }
   ],
   "item": [
@@ -80,10 +84,23 @@
           }
         },
         {
-          "name": "Get books by genre",
+          "name": "Get books with filters",
           "request": {
             "method": "GET",
-            "url": "{{baseUrl}}/api/books?genreId=1"
+            "url": "{{baseUrl}}/api/books?q=clean&genreId=1&status=AVAILABLE"
+          }
+        },
+        {
+          "name": "Get my books",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/books/mine"
           }
         },
         {
@@ -109,7 +126,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Libro de prueba\",\n  \"author\": \"Autora de prueba\",\n  \"price\": 12.5,\n  \"condition\": \"BuenEstado\",\n  \"genreId\": 1,\n  \"description\": \"Descripción de prueba suficientemente larga para superar la validación.\",\n  \"isbn\": \"9780000000000\",\n  \"coverUrl\": \"https://example.com/cover.jpg\",\n  \"year\": 2024\n}"
+              "raw": "{\n  \"title\": \"Libro de prueba\",\n  \"author\": \"Autora de prueba\",\n  \"price\": 12.5,\n  \"condition\": \"BuenEstado\",\n  \"genreId\": 1,\n  \"synopsis\": \"Sinopsis de prueba para validar el campo obligatorio.\",\n  \"description\": \"Buen estado general.\",\n  \"language\": \"Español\",\n  \"isbn\": \"9780000000000\",\n  \"coverUrl\": \"https://example.com/cover.jpg\",\n  \"year\": 2024\n}"
             },
             "url": "{{baseUrl}}/api/books"
           }
@@ -130,13 +147,26 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Libro de prueba editado\",\n  \"price\": 10.99,\n  \"condition\": \"Aceptable\"\n}"
+              "raw": "{\n  \"title\": \"Libro de prueba editado\",\n  \"price\": 10.99,\n  \"condition\": \"Aceptable\",\n  \"description\": \"Tiene marcas leves.\",\n  \"language\": \"Español\",\n  \"synopsis\": \"Sinopsis editada para el libro de prueba.\"\n}"
             },
             "url": "{{baseUrl}}/api/books/{{bookId}}"
           }
         },
         {
-          "name": "Delete book",
+          "name": "Reactivate book",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/books/{{bookId}}/reactivate"
+          }
+        },
+        {
+          "name": "Retire book",
           "request": {
             "method": "DELETE",
             "header": [
@@ -146,6 +176,19 @@
               }
             ],
             "url": "{{baseUrl}}/api/books/{{bookId}}"
+          }
+        },
+        {
+          "name": "Delete book permanently",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/books/{{bookId}}/permanent"
           }
         }
       ]
@@ -166,6 +209,19 @@
       "name": "Reservations",
       "item": [
         {
+          "name": "Get my reservations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/reservations/mine"
+          }
+        },
+        {
           "name": "Create reservation",
           "request": {
             "method": "POST",
@@ -184,6 +240,75 @@
               "raw": "{\n  \"bookId\": 1\n}"
             },
             "url": "{{baseUrl}}/api/reservations"
+          }
+        },
+        {
+          "name": "Remove reservation",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/reservations/{{reservationId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Favorites",
+      "item": [
+        {
+          "name": "Get my favorites",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/favorites/mine"
+          }
+        },
+        {
+          "name": "Add favorite",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/favorites/{{bookId}}"
+          }
+        },
+        {
+          "name": "Remove favorite",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/favorites/{{bookId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Open Library",
+      "item": [
+        {
+          "name": "Search books",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/open-library/search?q=9788433966551"
           }
         }
       ]

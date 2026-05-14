@@ -17,14 +17,17 @@ export default function Navbar() {
         Bibliomarket
       </Link>
       <div className={styles.links}>
-        <Link to="/books">Libros</Link>
+        <Link to="/books">Consultar</Link>
         {user ? (
           <>
             {user.role === "ADMIN" && <Link to="/dashboard">Dashboard</Link>}
             {(user.role === "USER" || user.role === "ADMIN") && (
-              <Link to="/books/new" className={styles.btnPrimary}>
-                + Vender libro
-              </Link>
+              <>
+                <Link to="/my-books">Mis libros</Link>
+                <Link to="/books/new" className={styles.btnPrimary}>
+                  + Vender libro
+                </Link>
+              </>
             )}
             <span className={styles.roleTag}>{user.name}</span>
             <button className={styles.btnLogout} onClick={handleLogout}>

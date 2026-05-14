@@ -29,27 +29,68 @@ Marketplace de libros de segunda mano donde los usuarios pueden publicar, buscar
 ```
 bibliomarket-prjct4-jeannette/
 ├── backend/
+│   ├── package.json
 │   ├── prisma/
 │   │   ├── migrations/
 │   │   ├── seed.js
 │   │   └── schema.prisma
 │   └── src/
 │       ├── controllers/
+│       │   ├── auth.controller.js
+│       │   ├── book.controller.js
+│       │   ├── favorite.controller.js
+│       │   ├── genre.controller.js
+│       │   ├── openLibrary.controller.js
+│       │   └── reservation.controller.js
 │       ├── lib/
+│       │   └── prisma.js
 │       ├── middlewares/
+│       │   ├── auth.js
+│       │   ├── errorHandler.js
+│       │   └── validate.js
 │       ├── routes/
+│       │   ├── auth.routes.js
+│       │   ├── book.routes.js
+│       │   ├── favorite.routes.js
+│       │   ├── genre.routes.js
+│       │   ├── openLibrary.routes.js
+│       │   └── reservation.routes.js
 │       ├── schemas/
+│       │   ├── auth.schema.js
+│       │   ├── book.schema.js
+│       │   └── reservation.schema.js
 │       ├── tests/
+│       │   ├── auth.test.js
+│       │   ├── books.test.js
+│       │   └── reservations.test.js
 │       ├── app.js
 │       └── server.js
 └── frontend/
+    ├── index.html
+    ├── package.json
     └── src/
         ├── components/
+        │   ├── Navbar.jsx
+        │   ├── Navbar.module.css
+        │   └── ProtectedRoute.jsx
         ├── config/
+        │   └── api.js
         ├── context/
+        │   └── AuthContext.jsx
         ├── hooks/
+        │   ├── useApi.js
+        │   └── useDebounce.js
         ├── pages/
+        │   ├── BookDetail/
+        │   ├── BookForm/
+        │   ├── BookList/
+        │   ├── Dashboard/
+        │   ├── Home/
+        │   ├── Login/
+        │   ├── MyBooks/
+        │   └── Register/
         ├── App.jsx
+        ├── index.css
         └── main.jsx
 ```
 
@@ -165,16 +206,25 @@ PORT=3000
 - [x] Página de listado de libros (`BookList`)
 - [x] Página de detalle del libro (`BookDetail`)
 - [x] Formulario de creación y edición de libros (`BookForm`)
+- [x] Integración con Open Library para buscar libros por título, autor o ISBN y rellenar automáticamente datos del formulario
 - [x] Integración con la API mediante `fetch`
 - [x] Envío de token JWT en peticiones protegidas
 - [x] Context de usuario autenticado (`AuthContext`)
 - [x] Rutas protegidas con `ProtectedRoute`
 - [x] Dashboard básico protegido para rol `ADMIN`
 
+> **Nota sobre Open Library:** la app usa Open Library como API pública para ayudar a completar los datos de los libros, pero sus respuestas pueden ser muy lentas. Para probar la búsqueda con un ejemplo directo, se puede usar esta página: https://openlibrary.org/works/OL59077W/Marilyn_Monroe?edition=key%3A/books/OL9129006M. O su ISBN concreto que funciona es `9788433966551`.
+
 ### ⏳ Día 4 — Integración y pulido
+
+- [ ] Integración externa opcional (n8n webhook, email, etc.) — no integrada por ser opcional
+- [ ] Mejorar el diseño responsive — pendiente
+- [x] Rutas protegidas en el frontend con `ProtectedRoute`
+- [x] Manejo de errores en el frontend: estados de carga, mensajes de error y empty states
+- [x] Tests adicionales — pendiente ampliar cobertura
 
 ### ⏳ Día 5 — Despliegue y presentación
 
 ## Rama activa
 
-Trabajando en rama `day-3` → merge a `main` al completar el día.
+Trabajando en rama `day-4` → merge a `main` al completar el día.
