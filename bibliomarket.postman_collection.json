@@ -3,39 +3,312 @@
     "name": "Bibliomarket API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "bookId",
+      "value": "1"
+    },
+    {
+      "key": "reservationId",
+      "value": "1"
+    }
+  ],
   "item": [
     {
-      "name": "Auth",
+      "name": "Health",
       "item": [
         {
           "name": "Health check",
           "request": {
             "method": "GET",
-            "url": "http://localhost:3000/"
+            "url": "{{baseUrl}}/"
           }
-        },
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
         {
           "name": "Register",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"name\": \"Tu Nombre\",\n  \"email\": \"tuemail@ejemplo.com\",\n  \"password\": \"123456\"\n}"
             },
-            "url": "http://localhost:3000/api/auth/register"
+            "url": "{{baseUrl}}/api/auth/register"
           }
         },
         {
           "name": "Login",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"tuemail@ejemplo.com\",\n  \"password\": \"123456\"\n}"
+              "raw": "{\n  \"email\": \"carlos@example.com\",\n  \"password\": \"user123\"\n}"
             },
-            "url": "http://localhost:3000/api/auth/login"
+            "url": "{{baseUrl}}/api/auth/login"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Books",
+      "item": [
+        {
+          "name": "Get books",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/books"
+          }
+        },
+        {
+          "name": "Get books with filters",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/books?q=clean&genreId=1&status=AVAILABLE"
+          }
+        },
+        {
+          "name": "Get my books",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/books/mine"
+          }
+        },
+        {
+          "name": "Get book by id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/books/{{bookId}}"
+          }
+        },
+        {
+          "name": "Create book",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Libro de prueba\",\n  \"author\": \"Autora de prueba\",\n  \"price\": 12.5,\n  \"condition\": \"BuenEstado\",\n  \"genreId\": 1,\n  \"synopsis\": \"Sinopsis de prueba para validar el campo obligatorio.\",\n  \"description\": \"Buen estado general.\",\n  \"language\": \"Español\",\n  \"isbn\": \"9780000000000\",\n  \"coverUrl\": \"https://example.com/cover.jpg\",\n  \"year\": 2024\n}"
+            },
+            "url": "{{baseUrl}}/api/books"
+          }
+        },
+        {
+          "name": "Update book",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Libro de prueba editado\",\n  \"price\": 10.99,\n  \"condition\": \"Aceptable\",\n  \"description\": \"Tiene marcas leves.\",\n  \"language\": \"Español\",\n  \"synopsis\": \"Sinopsis editada para el libro de prueba.\"\n}"
+            },
+            "url": "{{baseUrl}}/api/books/{{bookId}}"
+          }
+        },
+        {
+          "name": "Reactivate book",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/books/{{bookId}}/reactivate"
+          }
+        },
+        {
+          "name": "Retire book",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/books/{{bookId}}"
+          }
+        },
+        {
+          "name": "Delete book permanently",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/books/{{bookId}}/permanent"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Genres",
+      "item": [
+        {
+          "name": "Get genres",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/genres"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reservations",
+      "item": [
+        {
+          "name": "Get my reservations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/reservations/mine"
+          }
+        },
+        {
+          "name": "Create reservation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookId\": 1\n}"
+            },
+            "url": "{{baseUrl}}/api/reservations"
+          }
+        },
+        {
+          "name": "Remove reservation",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/reservations/{{reservationId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Favorites",
+      "item": [
+        {
+          "name": "Get my favorites",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/favorites/mine"
+          }
+        },
+        {
+          "name": "Add favorite",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/favorites/{{bookId}}"
+          }
+        },
+        {
+          "name": "Remove favorite",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/favorites/{{bookId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Open Library",
+      "item": [
+        {
+          "name": "Search books",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/open-library/search?q=9788433966551"
           }
         }
       ]

@@ -1,0 +1,154 @@
+.container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.back {
+  background: none;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  padding: 0;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 2rem;
+}
+
+.genre {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.card h1 {
+  font-size: 1.75rem;
+  color: #111827;
+  margin: 0.5rem 0 0.25rem;
+  text-transform: uppercase;
+}
+
+.author {
+  color: #6b7280;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+.meta strong {
+  color: #111827;
+}
+
+.textBlock {
+  margin-bottom: 1.5rem;
+}
+
+.textBlock h2 {
+  color: #111827;
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+.textBlock p {
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.btnReserve {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btnReserve:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnEdit {
+  background: none;
+  border: 1px solid #d1d5db;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #374151;
+}
+
+.btnEdit:hover {
+  background-color: #f3f4f6;
+}
+
+.btnFavorite {
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: 6px;
+  color: #92400e;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 0.55rem 1rem;
+}
+
+.btnFavorite:disabled {
+  cursor: default;
+  opacity: 0.75;
+}
+
+.messageSellerActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.btnMessageSeller {
+  background: #1e3a5f;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: default;
+  font-size: 0.95rem;
+  padding: 0.6rem 1rem;
+}
+
+.success {
+  color: #16a34a;
+  font-weight: 500;
+}
+
+.message {
+  text-align: center;
+  margin-top: 4rem;
+  color: #6b7280;
+}
