@@ -231,6 +231,23 @@ PORT=3000
 
 ### 🔄 Día 5 — Despliegue y presentación
 
+- [x] Backend desplegado en Render
+- [x] Base de datos PostgreSQL configurada en Render
+- [x] Migraciones de Prisma ejecutadas en producción
+- [x] Seed ejecutado en la base de datos de producción para cargar géneros y datos de prueba
+- [x] Frontend desplegado en Vercel
+- [x] Frontend conectado al backend mediante `VITE_API_URL`
+
+## Despliegue
+
+- **Frontend (Vercel):** `https://bibliomarket-prjct4-jeannette.vercel.app`
+- **Backend (Render):** `https://bibliomarket-backend.onrender.com`
+- **Base de datos:** PostgreSQL en Render
+
+El frontend usa la variable de entorno `VITE_API_URL` para conectar con la API desplegada en Render.
+
+> Nota: el backend está desplegado en Render Free, por lo que la primera petición puede tardar unos segundos si el servicio estaba inactivo.
+
 ## Rama activa
 
 Trabajando en rama `day-5` → merge a `main` al completar el día.
