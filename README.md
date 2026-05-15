@@ -146,12 +146,12 @@ PORT=3000
 
 4 tablas principales:
 
-| Tabla         | Descripción                |
-| ------------- | -------------------------- |
-| `User`        | Personas que compran, venden o reservan |
+| Tabla         | Descripción                                    |
+| ------------- | ---------------------------------------------- |
+| `User`        | Personas que compran, venden o reservan        |
 | `Book`        | Libros de segunda mano publicados por usuarios |
-| `Genre`       | Géneros literarios         |
-| `Reservation` | Reservas temporales de libros |
+| `Genre`       | Géneros literarios                             |
+| `Reservation` | Reservas temporales de libros                  |
 
 ### Enums
 
@@ -162,18 +162,18 @@ PORT=3000
 
 ## Endpoints disponibles
 
-| Método | Ruta                 | Descripción                         | Auth |
-| ------ | -------------------- | ----------------------------------- | ---- |
-| GET    | `/`                  | Health check                        | —    |
-| POST   | `/api/auth/register` | Registro de usuario                 | —    |
-| POST   | `/api/auth/login`    | Login                               | —    |
-| GET    | `/api/books`         | Listado de libros disponibles       | —    |
-| GET    | `/api/books/:id`     | Detalle de un libro                 | —    |
-| POST   | `/api/books`         | Crear/publicar un libro             | JWT  |
-| PUT    | `/api/books/:id`     | Editar un libro propio              | JWT  |
-| DELETE | `/api/books/:id`     | Cancelar/eliminar publicación       | JWT  |
-| GET    | `/api/genres`        | Listado de géneros                  | —    |
-| POST   | `/api/reservations`  | Crear reserva de un libro           | JWT  |
+| Método | Ruta                 | Descripción                   | Auth |
+| ------ | -------------------- | ----------------------------- | ---- |
+| GET    | `/`                  | Health check                  | —    |
+| POST   | `/api/auth/register` | Registro de usuario           | —    |
+| POST   | `/api/auth/login`    | Login                         | —    |
+| GET    | `/api/books`         | Listado de libros disponibles | —    |
+| GET    | `/api/books/:id`     | Detalle de un libro           | —    |
+| POST   | `/api/books`         | Crear/publicar un libro       | JWT  |
+| PUT    | `/api/books/:id`     | Editar un libro propio        | JWT  |
+| DELETE | `/api/books/:id`     | Cancelar/eliminar publicación | JWT  |
+| GET    | `/api/genres`        | Listado de géneros            | —    |
+| POST   | `/api/reservations`  | Crear reserva de un libro     | JWT  |
 
 ## Progreso del proyecto (he seguido la sugerencia de las instrucciones)
 
@@ -231,4 +231,4 @@ PORT=3000
 
 ## Rama activa
 
-Trabajando en rama `day-4` → merge a `main` al completar el día.
+Trabajando en rama `day-5` → merge a `main` al completar el día.
