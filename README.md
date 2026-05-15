@@ -15,6 +15,8 @@ El proyecto incluye también un rol `ADMIN` y un dashboard básico porque forman
 - **Tests:** auth (registro/login), books (listado/detalle/auth), reservations (crear/validar estado)
 - **Entorno:** ES Modules (`import/export`)
 
+> Nota: el backend estará desplegado en Render Free, por lo que la primera petición puede tardar unos segundos si el servicio estaba inactivo.
+
 ## Tecnologías y versiones backend (ver package.json)
 
 | Tecnología   | Versión | Uso                      |
