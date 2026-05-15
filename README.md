@@ -21,25 +21,25 @@ El proyecto incluye también un rol `ADMIN` y un dashboard básico porque forman
 
 ## Tecnologías y versiones principales
 
-| Tecnología            | Versión | Uso                                      |
-| --------------------- | ------- | ---------------------------------------- |
-| Node.js               | v24     | Entorno de ejecución backend             |
-| Express               | v5      | Framework HTTP                           |
-| Prisma Client         | v6      | ORM y acceso a base de datos             |
-| Prisma CLI            | v6      | Migraciones y seed                       |
-| PostgreSQL            | v18     | Base de datos relacional                 |
-| pg                    | v8      | Driver PostgreSQL                        |
-| jsonwebtoken          | v9      | Autenticación JWT                        |
-| bcryptjs              | v3      | Hash de contraseñas                      |
-| Zod                   | v4      | Validación de datos                      |
-| React                 | v19     | Interfaz de usuario                      |
-| React Router          | v7      | Rutas del frontend                       |
-| Vite                  | v8      | Desarrollo y build del frontend          |
-| Vitest                | v4      | Tests backend                            |
-| Supertest             | v7      | Tests de endpoints HTTP                  |
-| nodemon               | v3      | Hot reload en desarrollo backend         |
-| Render                | Free    | Despliegue backend y PostgreSQL cloud    |
-| Vercel                | Hobby   | Despliegue frontend                      |
+| Tecnología    | Versión | Uso                                   |
+| ------------- | ------- | ------------------------------------- |
+| Node.js       | v24     | Entorno de ejecución backend          |
+| Express       | v5      | Framework HTTP                        |
+| Prisma Client | v6      | ORM y acceso a base de datos          |
+| Prisma CLI    | v6      | Migraciones y seed                    |
+| PostgreSQL    | v18     | Base de datos relacional              |
+| pg            | v8      | Driver PostgreSQL                     |
+| jsonwebtoken  | v9      | Autenticación JWT                     |
+| bcryptjs      | v3      | Hash de contraseñas                   |
+| Zod           | v4      | Validación de datos                   |
+| React         | v19     | Interfaz de usuario                   |
+| React Router  | v7      | Rutas del frontend                    |
+| Vite          | v8      | Desarrollo y build del frontend       |
+| Vitest        | v4      | Tests backend                         |
+| Supertest     | v7      | Tests de endpoints HTTP               |
+| nodemon       | v3      | Hot reload en desarrollo backend      |
+| Render        | Free    | Despliegue backend y PostgreSQL cloud |
+| Vercel        | Hobby   | Despliegue frontend                   |
 
 ## Estructura del proyecto
 
@@ -202,27 +202,27 @@ PORT=3000
 
 ## Endpoints disponibles
 
-| Método | Ruta                         | Descripción                                      | Auth |
-| ------ | ---------------------------- | ------------------------------------------------ | ---- |
-| GET    | `/`                          | Health check                                     | —    |
-| POST   | `/api/auth/register`         | Registro de usuario                              | —    |
-| POST   | `/api/auth/login`            | Login                                            | —    |
-| GET    | `/api/books`                 | Listado de libros disponibles                    | Opcional |
-| GET    | `/api/books/mine`            | Libros publicados por el usuario autenticado     | JWT  |
-| GET    | `/api/books/:id`             | Detalle de un libro                              | —    |
-| POST   | `/api/books`                 | Crear/publicar un libro                          | JWT  |
-| PUT    | `/api/books/:id`             | Editar un libro propio                           | JWT  |
-| PATCH  | `/api/books/:id/reactivate`  | Reactivar una publicación cancelada              | JWT  |
-| DELETE | `/api/books/:id`             | Cancelar/eliminar publicación                    | JWT  |
-| DELETE | `/api/books/:id/permanent`   | Eliminar definitivamente un libro propio         | JWT  |
-| GET    | `/api/genres`                | Listado de géneros                               | —    |
-| GET    | `/api/favorites/mine`        | Favoritos del usuario autenticado                | JWT  |
-| POST   | `/api/favorites/:bookId`     | Añadir libro a favoritos                         | JWT  |
-| DELETE | `/api/favorites/:bookId`     | Quitar libro de favoritos                        | JWT  |
-| GET    | `/api/reservations/mine`     | Reservas del usuario autenticado                 | JWT  |
-| POST   | `/api/reservations`          | Crear reserva de un libro                        | JWT  |
-| DELETE | `/api/reservations/:id`      | Cancelar/eliminar una reserva propia             | JWT  |
-| GET    | `/api/open-library/search`   | Buscar libros en Open Library por título/ISBN    | —    |
+| Método | Ruta                        | Descripción                                   | Auth     |
+| ------ | --------------------------- | --------------------------------------------- | -------- |
+| GET    | `/`                         | Health check                                  | —        |
+| POST   | `/api/auth/register`        | Registro de usuario                           | —        |
+| POST   | `/api/auth/login`           | Login                                         | —        |
+| GET    | `/api/books`                | Listado de libros disponibles                 | Opcional |
+| GET    | `/api/books/mine`           | Libros publicados por el usuario autenticado  | JWT      |
+| GET    | `/api/books/:id`            | Detalle de un libro                           | —        |
+| POST   | `/api/books`                | Crear/publicar un libro                       | JWT      |
+| PUT    | `/api/books/:id`            | Editar un libro propio                        | JWT      |
+| PATCH  | `/api/books/:id/reactivate` | Reactivar una publicación cancelada           | JWT      |
+| DELETE | `/api/books/:id`            | Cancelar/eliminar publicación                 | JWT      |
+| DELETE | `/api/books/:id/permanent`  | Eliminar definitivamente un libro propio      | JWT      |
+| GET    | `/api/genres`               | Listado de géneros                            | —        |
+| GET    | `/api/favorites/mine`       | Favoritos del usuario autenticado             | JWT      |
+| POST   | `/api/favorites/:bookId`    | Añadir libro a favoritos                      | JWT      |
+| DELETE | `/api/favorites/:bookId`    | Quitar libro de favoritos                     | JWT      |
+| GET    | `/api/reservations/mine`    | Reservas del usuario autenticado              | JWT      |
+| POST   | `/api/reservations`         | Crear reserva de un libro                     | JWT      |
+| DELETE | `/api/reservations/:id`     | Cancelar/eliminar una reserva propia          | JWT      |
+| GET    | `/api/open-library/search`  | Buscar libros en Open Library por título/ISBN | —        |
 
 ## Progreso del proyecto (he seguido la sugerencia de las instrucciones)
 

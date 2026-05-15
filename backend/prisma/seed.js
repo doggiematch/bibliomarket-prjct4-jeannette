@@ -12,9 +12,9 @@ async function main() {
 
   const genres = await Promise.all([
     prisma.genre.upsert({
-      where: { name: "Ficción" },
+      where: { name: "Biografía" },
       update: {},
-      create: { name: "Ficción" },
+      create: { name: "Biografía" },
     }),
     prisma.genre.upsert({
       where: { name: "Ciencia ficción" },
@@ -30,6 +30,26 @@ async function main() {
       where: { name: "Programación" },
       update: {},
       create: { name: "Programación" },
+    }),
+    prisma.genre.upsert({
+      where: { name: "Gastronomía" },
+      update: {},
+      create: { name: "Gastronomía" },
+    }),
+    prisma.genre.upsert({
+      where: { name: "Moda" },
+      update: {},
+      create: { name: "Moda" },
+    }),
+    prisma.genre.upsert({
+      where: { name: "Fotografía" },
+      update: {},
+      create: { name: "Fotografía" },
+    }),
+    prisma.genre.upsert({
+      where: { name: "Miscelánea" },
+      update: {},
+      create: { name: "Miscelánea" },
     }),
   ]);
 
