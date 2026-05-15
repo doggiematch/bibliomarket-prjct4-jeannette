@@ -193,7 +193,7 @@ export default function MyBooks() {
   return (
     <main className={styles.container}>
       <div className={styles.header}>
-        <h1>Mis libros</h1>
+        <h1>Mi biblioteca</h1>
       </div>
 
       <div className={styles.filters}>

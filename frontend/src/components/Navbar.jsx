@@ -23,7 +23,7 @@ export default function Navbar() {
             {user.role === "ADMIN" && <Link to="/dashboard">Dashboard</Link>}
             {(user.role === "USER" || user.role === "ADMIN") && (
               <>
-                <Link to="/my-books">Mis libros</Link>
+                <Link to="/my-books">Mi biblioteca</Link>
                 <Link to="/books/new" className={styles.btnPrimary}>
                   + Vender libro
                 </Link>
