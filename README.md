@@ -10,37 +10,57 @@ El proyecto incluye también un rol `ADMIN` y un dashboard básico porque forman
 
 ## Stack técnico
 
-- **Backend:** Node.js v24 + Express v5 + Prisma v6 + PostgreSQL + JWT + Zod + bcryptjs
-- **Frontend:** React + React Router + CSS Modules
-- **Tests:** auth (registro/login), books (listado/detalle/auth), reservations (crear/validar estado)
-- **Entorno:** ES Modules (`import/export`)
+- **Backend:** Node.js + Express + Prisma + PostgreSQL + JWT + Zod + bcryptjs
+- **Frontend:** React + Vite + React Router + CSS Modules
+- **Base de datos:** PostgreSQL local en desarrollo y PostgreSQL en Render para producción
+- **Tests:** Vitest + Supertest para auth, books y reservations
+- **Despliegue:** Backend en Render, base de datos en Render y frontend en Vercel
+- **Entorno:** ES Modules (`import/export`) y variables de entorno (`.env`)
 
 > Nota: el backend estará desplegado en Render Free, por lo que la primera petición puede tardar unos segundos si el servicio estaba inactivo.
 
-## Tecnologías y versiones backend (ver package.json)
+## Tecnologías y versiones principales
 
-| Tecnología   | Versión | Uso                      |
-| ------------ | ------- | ------------------------ |
-| Node.js      | v24     | Entorno de ejecución     |
-| Express      | v5      | Framework HTTP           |
-| Prisma       | v6      | ORM y migraciones        |
-| PostgreSQL   | v18     | Base de datos            |
-| jsonwebtoken | v9      | Autenticación JWT        |
-| bcryptjs     | v3      | Hash de contraseñas      |
-| Zod          | v3      | Validación de datos      |
-| nodemon      | v3      | Hot reload en desarrollo |
+| Tecnología            | Versión | Uso                                      |
+| --------------------- | ------- | ---------------------------------------- |
+| Node.js               | v24     | Entorno de ejecución backend             |
+| Express               | v5      | Framework HTTP                           |
+| Prisma Client         | v6      | ORM y acceso a base de datos             |
+| Prisma CLI            | v6      | Migraciones y seed                       |
+| PostgreSQL            | v18     | Base de datos relacional                 |
+| pg                    | v8      | Driver PostgreSQL                        |
+| jsonwebtoken          | v9      | Autenticación JWT                        |
+| bcryptjs              | v3      | Hash de contraseñas                      |
+| Zod                   | v4      | Validación de datos                      |
+| React                 | v19     | Interfaz de usuario                      |
+| React Router          | v7      | Rutas del frontend                       |
+| Vite                  | v8      | Desarrollo y build del frontend          |
+| Vitest                | v4      | Tests backend                            |
+| Supertest             | v7      | Tests de endpoints HTTP                  |
+| nodemon               | v3      | Hot reload en desarrollo backend         |
+| Render                | Free    | Despliegue backend y PostgreSQL cloud    |
+| Vercel                | Hobby   | Despliegue frontend                      |
 
 ## Estructura del proyecto
 
 ```
 bibliomarket-prjct4-jeannette/
+├── README.md
+├── ai_log.md
+├── backlog.md
+├── bibliomarket.postman_collection.json
 ├── backend/
+│   ├── .env.example
 │   ├── package.json
+│   ├── package-lock.json
+│   ├── vitest.config.js
 │   ├── prisma/
 │   │   ├── migrations/
 │   │   ├── seed.js
 │   │   └── schema.prisma
 │   └── src/
+│       ├── app.js
+│       ├── server.js
 │       ├── controllers/
 │       │   ├── auth.controller.js
 │       │   ├── book.controller.js
@@ -65,16 +85,21 @@ bibliomarket-prjct4-jeannette/
 │       │   ├── auth.schema.js
 │       │   ├── book.schema.js
 │       │   └── reservation.schema.js
-│       ├── tests/
-│       │   ├── auth.test.js
-│       │   ├── books.test.js
-│       │   └── reservations.test.js
-│       ├── app.js
-│       └── server.js
+│       └── tests/
+│           ├── auth.test.js
+│           ├── books.test.js
+│           └── reservations.test.js
 └── frontend/
+    ├── .env.example
     ├── index.html
     ├── package.json
+    ├── package-lock.json
+    ├── vite.config.js
     └── src/
+        ├── App.css
+        ├── App.jsx
+        ├── index.css
+        ├── main.jsx
         ├── components/
         │   ├── Navbar.jsx
         │   ├── Navbar.module.css
@@ -84,20 +109,32 @@ bibliomarket-prjct4-jeannette/
         ├── context/
         │   └── AuthContext.jsx
         ├── hooks/
-        │   ├── useApi.js
         │   └── useDebounce.js
-        ├── pages/
-        │   ├── BookDetail/
-        │   ├── BookForm/
-        │   ├── BookList/
-        │   ├── Dashboard/
-        │   ├── Home/
-        │   ├── Login/
-        │   ├── MyBooks/
-        │   └── Register/
-        ├── App.jsx
-        ├── index.css
-        └── main.jsx
+        └── pages/
+            ├── BookDetail/
+            │   ├── BookDetail.jsx
+            │   └── BookDetail.module.css
+            ├── BookForm/
+            │   ├── BookForm.jsx
+            │   └── BookForm.module.css
+            ├── BookList/
+            │   ├── BookList.jsx
+            │   └── BookList.module.css
+            ├── Dashboard/
+            │   ├── Dashboard.jsx
+            │   └── Dashboard.module.css
+            ├── Home/
+            │   ├── Home.jsx
+            │   └── Home.module.css
+            ├── Login/
+            │   ├── Login.jsx
+            │   └── Login.module.css
+            ├── MyBooks/
+            │   ├── MyBooks.jsx
+            │   └── MyBooks.module.css
+            └── Register/
+                ├── Register.jsx
+                └── Register.module.css
 ```
 
 ## Puesta en marcha
@@ -146,7 +183,7 @@ PORT=3000
 
 ## Modelo de datos
 
-4 tablas principales:
+5 tablas principales:
 
 | Tabla         | Descripción                                    |
 | ------------- | ---------------------------------------------- |
@@ -154,6 +191,7 @@ PORT=3000
 | `Book`        | Libros de segunda mano publicados por usuarios |
 | `Genre`       | Géneros literarios                             |
 | `Reservation` | Reservas temporales de libros                  |
+| `Favorite`    | Relación entre usuarios y libros favoritos     |
 
 ### Enums
 
@@ -164,18 +202,27 @@ PORT=3000
 
 ## Endpoints disponibles
 
-| Método | Ruta                 | Descripción                   | Auth |
-| ------ | -------------------- | ----------------------------- | ---- |
-| GET    | `/`                  | Health check                  | —    |
-| POST   | `/api/auth/register` | Registro de usuario           | —    |
-| POST   | `/api/auth/login`    | Login                         | —    |
-| GET    | `/api/books`         | Listado de libros disponibles | —    |
-| GET    | `/api/books/:id`     | Detalle de un libro           | —    |
-| POST   | `/api/books`         | Crear/publicar un libro       | JWT  |
-| PUT    | `/api/books/:id`     | Editar un libro propio        | JWT  |
-| DELETE | `/api/books/:id`     | Cancelar/eliminar publicación | JWT  |
-| GET    | `/api/genres`        | Listado de géneros            | —    |
-| POST   | `/api/reservations`  | Crear reserva de un libro     | JWT  |
+| Método | Ruta                         | Descripción                                      | Auth |
+| ------ | ---------------------------- | ------------------------------------------------ | ---- |
+| GET    | `/`                          | Health check                                     | —    |
+| POST   | `/api/auth/register`         | Registro de usuario                              | —    |
+| POST   | `/api/auth/login`            | Login                                            | —    |
+| GET    | `/api/books`                 | Listado de libros disponibles                    | Opcional |
+| GET    | `/api/books/mine`            | Libros publicados por el usuario autenticado     | JWT  |
+| GET    | `/api/books/:id`             | Detalle de un libro                              | —    |
+| POST   | `/api/books`                 | Crear/publicar un libro                          | JWT  |
+| PUT    | `/api/books/:id`             | Editar un libro propio                           | JWT  |
+| PATCH  | `/api/books/:id/reactivate`  | Reactivar una publicación cancelada              | JWT  |
+| DELETE | `/api/books/:id`             | Cancelar/eliminar publicación                    | JWT  |
+| DELETE | `/api/books/:id/permanent`   | Eliminar definitivamente un libro propio         | JWT  |
+| GET    | `/api/genres`                | Listado de géneros                               | —    |
+| GET    | `/api/favorites/mine`        | Favoritos del usuario autenticado                | JWT  |
+| POST   | `/api/favorites/:bookId`     | Añadir libro a favoritos                         | JWT  |
+| DELETE | `/api/favorites/:bookId`     | Quitar libro de favoritos                        | JWT  |
+| GET    | `/api/reservations/mine`     | Reservas del usuario autenticado                 | JWT  |
+| POST   | `/api/reservations`          | Crear reserva de un libro                        | JWT  |
+| DELETE | `/api/reservations/:id`      | Cancelar/eliminar una reserva propia             | JWT  |
+| GET    | `/api/open-library/search`   | Buscar libros en Open Library por título/ISBN    | —    |
 
 ## Progreso del proyecto (he seguido la sugerencia de las instrucciones)
 
@@ -229,7 +276,7 @@ PORT=3000
 - [x] Manejo de errores en el frontend: estados de carga, mensajes de error y empty states
 - [x] Tests adicionales — pendiente ampliar cobertura
 
-### 🔄 Día 5 — Despliegue y presentación
+### ✅ Día 5 — Despliegue y presentación
 
 - [x] Backend desplegado en Render
 - [x] Base de datos PostgreSQL configurada en Render
@@ -240,14 +287,40 @@ PORT=3000
 
 ## Despliegue
 
-- **Frontend (Vercel):** `https://bibliomarket-prjct4-jeannette.vercel.app`
-- **Backend (Render):** `https://bibliomarket-backend.onrender.com`
+- **Frontend (Vercel):** `https://bibliomarket-prjct4-jeannette.vercel.app/`
+- **Backend (Render):** `https://bibliomarket-backend.onrender.com/`
 - **Base de datos:** PostgreSQL en Render
 
 El frontend usa la variable de entorno `VITE_API_URL` para conectar con la API desplegada en Render.
 
 > Nota: el backend está desplegado en Render Free, por lo que la primera petición puede tardar unos segundos si el servicio estaba inactivo.
 
+## Checklist de entrega
+
+### Backend
+
+- [x] `npm run dev` funciona sin errores y levanta el servidor en `http://localhost:3000`
+- [x] API desplegada y accesible en Render
+- [x] Rutas principales desplegadas comprobadas: health check, libros, géneros y login
+- [x] `.env` preparado con las variables necesarias: `DATABASE_URL`, `JWT_SECRET` y `PORT`
+- [ ] `npm test` pendiente de repetir con una base de datos accesible desde el entorno local
+- [ ] Revisión completa de todas las rutas en Postman/Thunder Client pendiente de última comprobación manual
+
+### Frontend
+
+- [x] `npm run dev` funciona sin errores y levanta Vite en `http://localhost:5173`
+- [x] Build de producción ejecutado correctamente con `npm run build`
+- [x] Frontend desplegado y accesible en Vercel
+- [x] Login comprobado contra la API desplegada
+- [ ] Registro y CRUD principal pendientes de última comprobación manual de extremo a extremo
+- [ ] Diseño responsive pendiente de última revisión manual en móvil
+
+### General
+
+- [x] README con descripción, instrucciones de instalación, endpoints y despliegue
+- [x] `.gitignore` incluye `node_modules/` y `.env`
+- [x] No hay credenciales reales en el código fuente; las contraseñas visibles corresponden a datos de prueba del seed/Postman
+
 ## Rama activa
 
-Trabajando en rama `day-5` → merge a `main` al completar el día.
+Últimas actualizaciones trabajando en rama `main`.
