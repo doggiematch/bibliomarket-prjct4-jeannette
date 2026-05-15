@@ -1,6 +1,10 @@
 # Bibliomarket
 
-Marketplace de libros de segunda mano donde los usuarios pueden publicar, buscar y reservar libros.
+Bibliomarket es una aplicación full stack para comprar y vender libros de segunda mano entre particulares.
+
+La idea principal es que cada usuario pueda gestionar su propia biblioteca personal: publicar los libros que tiene en casa y quiere vender, consultar libros de otros usuarios, reservarlos durante un tiempo limitado, guardarlos como favoritos y ponerse en contacto con el vendedor. No está pensada como una tienda de empresa, sino como un espacio de intercambio entre personas.
+
+El proyecto incluye también un rol `ADMIN` y un dashboard básico porque forman parte de la estructura técnica implementada, pero el flujo principal de la aplicación está centrado en usuarios particulares que administran sus propios libros.
 
 > Proyecto 4 del bootcamp — Semana 2 de backend | Alumna: Jeannette
 
@@ -144,10 +148,10 @@ PORT=3000
 
 | Tabla         | Descripción                |
 | ------------- | -------------------------- |
-| `User`        | Usuarios de la plataforma  |
-| `Book`        | Libros publicados en venta |
+| `User`        | Personas que compran, venden o reservan |
+| `Book`        | Libros de segunda mano publicados por usuarios |
 | `Genre`       | Géneros literarios         |
-| `Reservation` | Reservas de libros         |
+| `Reservation` | Reservas temporales de libros |
 
 ### Enums
 
@@ -166,7 +170,7 @@ PORT=3000
 | GET    | `/api/books`         | Listado de libros disponibles       | —    |
 | GET    | `/api/books/:id`     | Detalle de un libro                 | —    |
 | POST   | `/api/books`         | Crear/publicar un libro             | JWT  |
-| PUT    | `/api/books/:id`     | Editar un libro propio o como admin | JWT  |
+| PUT    | `/api/books/:id`     | Editar un libro propio              | JWT  |
 | DELETE | `/api/books/:id`     | Cancelar/eliminar publicación       | JWT  |
 | GET    | `/api/genres`        | Listado de géneros                  | —    |
 | POST   | `/api/reservations`  | Crear reserva de un libro           | JWT  |
@@ -175,7 +179,7 @@ PORT=3000
 
 ### ✅ Día 1 — Planificación y setup
 
-- [x] Definición del alcance: marketplace de libros de segunda mano
+- [x] Definición del alcance: compraventa de libros de segunda mano entre particulares
 - [x] Diseño del modelo de datos (4 tablas: User, Book, Genre, Reservation)
 - [x] Repositorio creado y entorno configurado
 - [x] Schema de Prisma con enums y relaciones
@@ -211,7 +215,7 @@ PORT=3000
 - [x] Envío de token JWT en peticiones protegidas
 - [x] Context de usuario autenticado (`AuthContext`)
 - [x] Rutas protegidas con `ProtectedRoute`
-- [x] Dashboard básico protegido para rol `ADMIN`
+- [x] Dashboard básico protegido para rol `ADMIN` como funcionalidad secundaria
 
 > **Nota sobre Open Library:** la app usa Open Library como API pública para ayudar a completar los datos de los libros, pero sus respuestas pueden ser muy lentas. Para probar la búsqueda con un ejemplo directo, se puede usar esta página: https://openlibrary.org/works/OL59077W/Marilyn_Monroe?edition=key%3A/books/OL9129006M. O su ISBN concreto que funciona es `9788433966551`.
 

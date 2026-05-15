@@ -1,45 +1,122 @@
 {
   "info": {
     "name": "Bibliomarket API",
+    "description": "Coleccion de Postman para probar y documentar Bibliomarket. Sirve para comprobar las acciones principales de la aplicacion: crear una cuenta, iniciar sesion, ver libros, publicar libros, reservarlos, marcarlos como favoritos y buscar datos en Open Library.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test('La respuesta no es un error del servidor', function () {",
+          "  pm.expect(pm.response.code).to.be.below(500);",
+          "});",
+          "",
+          "pm.test('La respuesta tarda menos de 3 segundos', function () {",
+          "  pm.expect(pm.response.responseTime).to.be.below(3000);",
+          "});"
+        ]
+      }
+    }
+  ],
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:3000"
+      "value": "http://localhost:3000",
+      "description": "Direccion donde se esta ejecutando el backend en local."
     },
     {
       "key": "token",
-      "value": ""
+      "value": "",
+      "description": "Se rellena automaticamente al hacer login correctamente."
     },
     {
       "key": "bookId",
-      "value": "1"
+      "value": "1",
+      "description": "Identificador de un libro existente para probar detalle, edicion, reserva o favorito."
     },
     {
       "key": "reservationId",
-      "value": "1"
+      "value": "1",
+      "description": "Identificador de una reserva existente para probar su eliminacion."
     }
   ],
   "item": [
     {
       "name": "Health",
+      "description": "Sirve para comprobar si el servidor esta encendido.",
       "item": [
         {
           "name": "Health check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('El servidor responde correctamente', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Comprueba que el backend esta funcionando antes de probar el resto de peticiones.",
             "method": "GET",
             "url": "{{baseUrl}}/"
-          }
+          },
+          "response": [
+            {
+              "name": "Servidor encendido",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Bibliomarket API running\"\n}"
+            }
+          ]
         }
       ]
     },
     {
       "name": "Auth",
+      "description": "Peticiones relacionadas con crear una cuenta e iniciar sesion.",
       "item": [
         {
           "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('El registro devuelve una respuesta correcta', function () {",
+                  "  pm.expect([200, 201]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "pm.test('La respuesta trae usuario y token', function () {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json).to.have.property('user');",
+                  "  pm.expect(json).to.have.property('token');",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Crea una cuenta nueva. Si el correo ya existe, hay que cambiarlo por otro.",
             "method": "POST",
             "header": [
               {
@@ -52,11 +129,60 @@
               "raw": "{\n  \"name\": \"Tu Nombre\",\n  \"email\": \"tuemail@ejemplo.com\",\n  \"password\": \"123456\"\n}"
             },
             "url": "{{baseUrl}}/api/auth/register"
-          }
+          },
+          "response": [
+            {
+              "name": "Usuario creado",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Tu Nombre\",\n  \"email\": \"tuemail@ejemplo.com\",\n  \"password\": \"123456\"\n}"
+                },
+                "url": "{{baseUrl}}/api/auth/register"
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"user\": {\n    \"id\": 1,\n    \"name\": \"Tu Nombre\",\n    \"email\": \"tuemail@ejemplo.com\",\n    \"role\": \"USER\"\n  },\n  \"token\": \"token_de_ejemplo\"\n}"
+            }
+          ]
         },
         {
           "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('El login responde correctamente', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Guarda el token para las siguientes peticiones', function () {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json).to.have.property('token');",
+                  "  pm.collectionVariables.set('token', json.token);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Inicia sesion con un usuario de prueba y guarda el token para poder usar las peticiones protegidas.",
             "method": "POST",
             "header": [
               {
@@ -69,30 +195,141 @@
               "raw": "{\n  \"email\": \"carlos@example.com\",\n  \"password\": \"user123\"\n}"
             },
             "url": "{{baseUrl}}/api/auth/login"
-          }
+          },
+          "response": [
+            {
+              "name": "Login correcto",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"carlos@example.com\",\n  \"password\": \"user123\"\n}"
+                },
+                "url": "{{baseUrl}}/api/auth/login"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"user\": {\n    \"id\": 1,\n    \"name\": \"Carlos\",\n    \"email\": \"carlos@example.com\",\n    \"role\": \"USER\"\n  },\n  \"token\": \"token_de_ejemplo\"\n}"
+            }
+          ]
         }
       ]
     },
     {
       "name": "Books",
+      "description": "Peticiones para consultar, crear, editar, retirar o eliminar libros.",
       "item": [
         {
           "name": "Get books",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Devuelve la lista de libros', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json()).to.be.an('array');",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Muestra los libros disponibles para cualquier persona que visite la aplicacion.",
             "method": "GET",
             "url": "{{baseUrl}}/api/books"
-          }
+          },
+          "response": [
+            {
+              "name": "Listado de libros",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/books"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"title\": \"Clean Code\",\n    \"author\": \"Robert C. Martin\",\n    \"price\": 18.5,\n    \"status\": \"AVAILABLE\"\n  }\n]"
+            }
+          ]
         },
         {
           "name": "Get books with filters",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('La busqueda responde correctamente', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Busca libros usando filtros como texto, genero o disponibilidad.",
             "method": "GET",
             "url": "{{baseUrl}}/api/books?q=clean&genreId=1&status=AVAILABLE"
-          }
+          },
+          "response": [
+            {
+              "name": "Libros filtrados",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/books?q=clean&genreId=1&status=AVAILABLE"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"title\": \"Clean Code\",\n    \"author\": \"Robert C. Martin\",\n    \"status\": \"AVAILABLE\"\n  }\n]"
+            }
+          ]
         },
         {
           "name": "Get my books",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Devuelve los libros del usuario conectado', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Muestra los libros publicados por la persona que ha iniciado sesion.",
             "method": "GET",
             "header": [
               {
@@ -101,18 +338,98 @@
               }
             ],
             "url": "{{baseUrl}}/api/books/mine"
-          }
+          },
+          "response": [
+            {
+              "name": "Mis libros",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/books/mine"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 2,\n    \"title\": \"Libro publicado por mi\",\n    \"status\": \"AVAILABLE\"\n  }\n]"
+            }
+          ]
         },
         {
           "name": "Get book by id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Devuelve el detalle del libro', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json()).to.have.property('id');",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Muestra la informacion completa de un libro concreto.",
             "method": "GET",
             "url": "{{baseUrl}}/api/books/{{bookId}}"
-          }
+          },
+          "response": [
+            {
+              "name": "Detalle de libro",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/books/{{bookId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"title\": \"Clean Code\",\n  \"author\": \"Robert C. Martin\",\n  \"price\": 18.5,\n  \"condition\": \"BuenEstado\",\n  \"status\": \"AVAILABLE\"\n}"
+            }
+          ]
         },
         {
           "name": "Create book",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('El libro se crea correctamente', function () {",
+                  "  pm.expect([200, 201]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "pm.test('Guarda el id del libro creado', function () {",
+                  "  const json = pm.response.json();",
+                  "  if (json.id) {",
+                  "    pm.collectionVariables.set('bookId', json.id);",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Publica un libro nuevo. Hace falta haber iniciado sesion antes.",
             "method": "POST",
             "header": [
               {
@@ -126,14 +443,61 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Libro de prueba\",\n  \"author\": \"Autora de prueba\",\n  \"price\": 12.5,\n  \"condition\": \"BuenEstado\",\n  \"genreId\": 1,\n  \"synopsis\": \"Sinopsis de prueba para validar el campo obligatorio.\",\n  \"description\": \"Buen estado general.\",\n  \"language\": \"Español\",\n  \"isbn\": \"9780000000000\",\n  \"coverUrl\": \"https://example.com/cover.jpg\",\n  \"year\": 2024\n}"
+              "raw": "{\n  \"title\": \"Libro de prueba\",\n  \"author\": \"Autora de prueba\",\n  \"price\": 12.5,\n  \"condition\": \"BuenEstado\",\n  \"genreId\": 1,\n  \"synopsis\": \"Sinopsis de prueba para validar el campo obligatorio.\",\n  \"description\": \"Buen estado general.\",\n  \"language\": \"Espanol\",\n  \"isbn\": \"9780000000000\",\n  \"coverUrl\": \"https://example.com/cover.jpg\",\n  \"year\": 2024\n}"
             },
             "url": "{{baseUrl}}/api/books"
-          }
+          },
+          "response": [
+            {
+              "name": "Libro creado",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Libro de prueba\",\n  \"author\": \"Autora de prueba\",\n  \"price\": 12.5,\n  \"condition\": \"BuenEstado\",\n  \"genreId\": 1,\n  \"synopsis\": \"Sinopsis de prueba para validar el campo obligatorio.\",\n  \"description\": \"Buen estado general.\",\n  \"language\": \"Espanol\",\n  \"isbn\": \"9780000000000\",\n  \"coverUrl\": \"https://example.com/cover.jpg\",\n  \"year\": 2024\n}"
+                },
+                "url": "{{baseUrl}}/api/books"
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 10,\n  \"title\": \"Libro de prueba\",\n  \"author\": \"Autora de prueba\",\n  \"status\": \"AVAILABLE\"\n}"
+            }
+          ]
         },
         {
           "name": "Update book",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('El libro se actualiza correctamente', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Edita los datos de un libro propio. Tambien puede hacerlo un usuario administrador.",
             "method": "PUT",
             "header": [
               {
@@ -147,14 +511,61 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Libro de prueba editado\",\n  \"price\": 10.99,\n  \"condition\": \"Aceptable\",\n  \"description\": \"Tiene marcas leves.\",\n  \"language\": \"Español\",\n  \"synopsis\": \"Sinopsis editada para el libro de prueba.\"\n}"
+              "raw": "{\n  \"title\": \"Libro de prueba editado\",\n  \"price\": 10.99,\n  \"condition\": \"Aceptable\",\n  \"description\": \"Tiene marcas leves.\",\n  \"language\": \"Espanol\",\n  \"synopsis\": \"Sinopsis editada para el libro de prueba.\"\n}"
             },
             "url": "{{baseUrl}}/api/books/{{bookId}}"
-          }
+          },
+          "response": [
+            {
+              "name": "Libro actualizado",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Libro de prueba editado\",\n  \"price\": 10.99,\n  \"condition\": \"Aceptable\",\n  \"description\": \"Tiene marcas leves.\",\n  \"language\": \"Espanol\",\n  \"synopsis\": \"Sinopsis editada para el libro de prueba.\"\n}"
+                },
+                "url": "{{baseUrl}}/api/books/{{bookId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 10,\n  \"title\": \"Libro de prueba editado\",\n  \"price\": 10.99\n}"
+            }
+          ]
         },
         {
           "name": "Reactivate book",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('El libro se vuelve a activar', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Vuelve a poner disponible un libro retirado.",
             "method": "PATCH",
             "header": [
               {
@@ -163,11 +574,50 @@
               }
             ],
             "url": "{{baseUrl}}/api/books/{{bookId}}/reactivate"
-          }
+          },
+          "response": [
+            {
+              "name": "Libro reactivado",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/books/{{bookId}}/reactivate"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 10,\n  \"status\": \"AVAILABLE\"\n}"
+            }
+          ]
         },
         {
           "name": "Retire book",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('El libro se retira correctamente', function () {",
+                  "  pm.expect([200, 204]).to.include(pm.response.code);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Retira una publicacion para que deje de aparecer como disponible.",
             "method": "DELETE",
             "header": [
               {
@@ -176,11 +626,50 @@
               }
             ],
             "url": "{{baseUrl}}/api/books/{{bookId}}"
-          }
+          },
+          "response": [
+            {
+              "name": "Libro retirado",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/books/{{bookId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Libro retirado correctamente\"\n}"
+            }
+          ]
         },
         {
           "name": "Delete book permanently",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('El libro se elimina correctamente', function () {",
+                  "  pm.expect([200, 204]).to.include(pm.response.code);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Elimina definitivamente un libro. Es una accion de limpieza o administracion.",
             "method": "DELETE",
             "header": [
               {
@@ -189,28 +678,103 @@
               }
             ],
             "url": "{{baseUrl}}/api/books/{{bookId}}/permanent"
-          }
+          },
+          "response": [
+            {
+              "name": "Libro eliminado definitivamente",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/books/{{bookId}}/permanent"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Libro eliminado definitivamente\"\n}"
+            }
+          ]
         }
       ]
     },
     {
       "name": "Genres",
+      "description": "Peticiones para consultar los generos disponibles.",
       "item": [
         {
           "name": "Get genres",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Devuelve los generos', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json()).to.be.an('array');",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Muestra los generos que se pueden elegir al publicar o filtrar libros.",
             "method": "GET",
             "url": "{{baseUrl}}/api/genres"
-          }
+          },
+          "response": [
+            {
+              "name": "Listado de generos",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/genres"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Programacion\"\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Novela\"\n  }\n]"
+            }
+          ]
         }
       ]
     },
     {
       "name": "Reservations",
+      "description": "Peticiones para ver, crear o cancelar reservas de libros.",
       "item": [
         {
           "name": "Get my reservations",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Devuelve las reservas del usuario', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Muestra las reservas hechas por la persona que ha iniciado sesion.",
             "method": "GET",
             "header": [
               {
@@ -219,11 +783,57 @@
               }
             ],
             "url": "{{baseUrl}}/api/reservations/mine"
-          }
+          },
+          "response": [
+            {
+              "name": "Mis reservas",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/reservations/mine"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"status\": \"ACTIVE\",\n    \"book\": {\n      \"id\": 1,\n      \"title\": \"Clean Code\"\n    }\n  }\n]"
+            }
+          ]
         },
         {
           "name": "Create reservation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('La reserva se crea correctamente', function () {",
+                  "  pm.expect([200, 201]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "pm.test('Guarda el id de la reserva creada', function () {",
+                  "  const json = pm.response.json();",
+                  "  if (json.id) {",
+                  "    pm.collectionVariables.set('reservationId', json.id);",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Reserva un libro disponible. Hace falta haber iniciado sesion antes.",
             "method": "POST",
             "header": [
               {
@@ -240,11 +850,58 @@
               "raw": "{\n  \"bookId\": 1\n}"
             },
             "url": "{{baseUrl}}/api/reservations"
-          }
+          },
+          "response": [
+            {
+              "name": "Reserva creada",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bookId\": 1\n}"
+                },
+                "url": "{{baseUrl}}/api/reservations"
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"status\": \"ACTIVE\",\n  \"bookId\": 1\n}"
+            }
+          ]
         },
         {
           "name": "Remove reservation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('La reserva se cancela correctamente', function () {",
+                  "  pm.expect([200, 204]).to.include(pm.response.code);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Cancela una reserva hecha por la persona conectada.",
             "method": "DELETE",
             "header": [
               {
@@ -253,16 +910,56 @@
               }
             ],
             "url": "{{baseUrl}}/api/reservations/{{reservationId}}"
-          }
+          },
+          "response": [
+            {
+              "name": "Reserva cancelada",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/reservations/{{reservationId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Reserva cancelada correctamente\"\n}"
+            }
+          ]
         }
       ]
     },
     {
       "name": "Favorites",
+      "description": "Peticiones para guardar libros como favoritos y quitarlos despues.",
       "item": [
         {
           "name": "Get my favorites",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Devuelve los favoritos del usuario', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Muestra los libros que la persona conectada ha guardado como favoritos.",
             "method": "GET",
             "header": [
               {
@@ -271,11 +968,50 @@
               }
             ],
             "url": "{{baseUrl}}/api/favorites/mine"
-          }
+          },
+          "response": [
+            {
+              "name": "Mis favoritos",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/favorites/mine"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"book\": {\n      \"id\": 1,\n      \"title\": \"Clean Code\"\n    }\n  }\n]"
+            }
+          ]
         },
         {
           "name": "Add favorite",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('El favorito se guarda correctamente', function () {",
+                  "  pm.expect([200, 201]).to.include(pm.response.code);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Guarda un libro en la lista de favoritos de la persona conectada.",
             "method": "POST",
             "header": [
               {
@@ -284,11 +1020,50 @@
               }
             ],
             "url": "{{baseUrl}}/api/favorites/{{bookId}}"
-          }
+          },
+          "response": [
+            {
+              "name": "Favorito guardado",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/favorites/{{bookId}}"
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"bookId\": 1\n}"
+            }
+          ]
         },
         {
           "name": "Remove favorite",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('El favorito se quita correctamente', function () {",
+                  "  pm.expect([200, 204]).to.include(pm.response.code);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Quita un libro de la lista de favoritos de la persona conectada.",
             "method": "DELETE",
             "header": [
               {
@@ -297,19 +1072,78 @@
               }
             ],
             "url": "{{baseUrl}}/api/favorites/{{bookId}}"
-          }
+          },
+          "response": [
+            {
+              "name": "Favorito eliminado",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/favorites/{{bookId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Favorito eliminado correctamente\"\n}"
+            }
+          ]
         }
       ]
     },
     {
       "name": "Open Library",
+      "description": "Peticion para buscar informacion externa de libros y ayudar a completar el formulario.",
       "item": [
         {
           "name": "Search books",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('La busqueda externa responde correctamente', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "description": "Busca datos de libros usando titulo, autor o ISBN. En este ejemplo se usa un ISBN que ya estaba probado.",
             "method": "GET",
             "url": "{{baseUrl}}/api/open-library/search?q=9788433966551"
-          }
+          },
+          "response": [
+            {
+              "name": "Resultado de Open Library",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/open-library/search?q=9788433966551"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"title\": \"Marilyn Monroe\",\n    \"author\": \"Joyce Carol Oates\",\n    \"isbn\": \"9788433966551\"\n  }\n]"
+            }
+          ]
         }
       ]
     }

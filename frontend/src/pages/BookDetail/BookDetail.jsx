@@ -21,6 +21,8 @@ const CONDITION_LABELS = {
   poor: "CON DEFECTOS",
 };
 
+const RESERVATION_DAYS = 3;
+
 export default function BookDetail() {
   const { id } = useParams();
   const { user } = useAuth();
@@ -98,7 +100,7 @@ export default function BookDetail() {
 
   return (
     <main className={styles.container}>
-      <button className={styles.back} onClick={() => navigate("/books")}>
+      <button className={styles.back} onClick={() => navigate(-1)}>
         ← Volver
       </button>
       <div className={styles.card}>
@@ -142,13 +144,18 @@ export default function BookDetail() {
               (reserved ? (
                 <span className={styles.success}>Reservado</span>
               ) : (
-                <button
-                  className={styles.btnReserve}
-                  onClick={handleReserve}
-                  disabled={reserving}
-                >
-                  {reserving ? "Reservando..." : "Reservar"}
-                </button>
+                <div className={styles.reserveAction}>
+                  <button
+                    className={styles.btnReserve}
+                    onClick={handleReserve}
+                    disabled={reserving}
+                  >
+                    {reserving ? "Reservando..." : "Reservar"}
+                  </button>
+                  <span className={styles.reserveNote}>
+                    Reserva durante {RESERVATION_DAYS} dias
+                  </span>
+                </div>
               ))}
             {isOwner && (
               <button
