@@ -106,6 +106,48 @@
         border-radius: 40px;
         border: 1px solid rgba(94, 201, 138, 0.15);
       }
+      .talk-timer {
+        position: fixed;
+        top: 22px;
+        right: 24px;
+        z-index: 120;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 13px;
+        border-radius: 999px;
+        background: rgba(15, 26, 20, 0.84);
+        border: 1px solid rgba(94, 201, 138, 0.18);
+        backdrop-filter: blur(14px);
+        color: #b8d4be;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+      .talk-timer::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #5ec98a;
+        box-shadow: 0 0 12px rgba(94, 201, 138, 0.65);
+      }
+      .talk-timer.warning {
+        border-color: rgba(212, 175, 110, 0.42);
+        color: #d4af6e;
+      }
+      .talk-timer.warning::before {
+        background: #d4af6e;
+        box-shadow: 0 0 12px rgba(212, 175, 110, 0.65);
+      }
+      .talk-timer.over {
+        border-color: rgba(236, 112, 99, 0.45);
+        color: #ec7063;
+      }
+      .talk-timer.over::before {
+        background: #ec7063;
+        box-shadow: 0 0 12px rgba(236, 112, 99, 0.65);
+      }
       .nav-btn {
         width: 38px;
         height: 38px;
@@ -1209,8 +1251,174 @@
         </div>
       </div>
 
-      <!-- SLIDE 3: ARQUITECTURA TECNICA -->
+      <!-- SLIDE 3: ROLES DE USUARIO -->
       <div class="slide slide-3" data-slide="3">
+        <div class="gradient-mesh">
+          <div
+            class="blob"
+            style="
+              width: 420px;
+              height: 420px;
+              top: -120px;
+              right: -70px;
+              background: #d4af6e;
+              opacity: 0.08;
+            "
+          ></div>
+          <div
+            class="blob"
+            style="
+              width: 300px;
+              height: 300px;
+              bottom: -80px;
+              left: -60px;
+              background: #4ab3d0;
+              opacity: 0.08;
+            "
+          ></div>
+        </div>
+        <canvas
+          class="particle-canvas-ambient"
+          style="position: absolute; inset: 0; z-index: 1"
+        ></canvas>
+        <div class="content">
+          <div
+            class="reveal"
+            style="
+              display: inline-flex;
+              align-items: center;
+              gap: 8px;
+              margin-bottom: 0.7rem;
+            "
+          >
+            <span
+              style="
+                width: 28px;
+                height: 2px;
+                background: linear-gradient(90deg, #d4af6e, #5ec98a);
+                display: block;
+                border-radius: 2px;
+              "
+            ></span
+            ><span
+              style="
+                font-size: 0.68rem;
+                font-weight: 600;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: #6e9478;
+              "
+              >Pitch Deck Bibliomarket</span
+            >
+          </div>
+          <h2
+            class="reveal"
+            style="
+              font-family: &quot;Instrument Serif&quot;, Georgia, serif;
+              font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+              font-weight: 400;
+              margin-bottom: 0.45rem;
+              color: #eef5f0;
+            "
+          >
+            Roles de usuario
+          </h2>
+          <p
+            class="reveal"
+            style="font-size: 0.8rem; color: #6e9478; margin-bottom: 1rem"
+          >
+            La aplicaci&oacute;n separa permisos seg&uacute;n el estado del usuario, pero
+            comprador y vendedor pueden ser la misma persona.
+          </p>
+          <div
+            class="reveal"
+            style="
+              display: grid;
+              grid-template-columns: repeat(4, 1fr);
+              gap: 12px;
+              align-items: stretch;
+              margin-bottom: 12px;
+            "
+          >
+            <div class="stack-column" style="border-color: rgba(110, 148, 120, 0.25)">
+              <h3 style="color: #6e9478">Invitado</h3>
+              <div class="stack-list">
+                <div class="stack-item"><strong>Puede explorar</strong><span>Busca libros publicados y consulta su informaci&oacute;n.</span></div>
+                <div class="stack-item"><strong>Acceso limitado</strong><span>No puede vender, reservar ni guardar favoritos.</span></div>
+                <div class="stack-item"><strong>Sin sesi&oacute;n</strong><span>No tiene biblioteca propia ni acciones privadas.</span></div>
+              </div>
+            </div>
+            <div class="stack-column" style="border-color: rgba(74, 179, 208, 0.24)">
+              <h3 style="color: #4ab3d0">Comprador</h3>
+              <div class="stack-list">
+                <div class="stack-item"><strong>Reserva libros</strong><span>Solo libros disponibles y que no sean propios.</span></div>
+                <div class="stack-item"><strong>Guarda favoritos</strong><span>A&ntilde;ade libros sin duplicarlos en su lista.</span></div>
+                <div class="stack-item"><strong>Gestiona actividad</strong><span>Ve y retira reservas o favoritos desde Mi biblioteca.</span></div>
+              </div>
+            </div>
+            <div class="stack-column" style="border-color: rgba(94, 201, 138, 0.24)">
+              <h3 style="color: #5ec98a">Vendedor</h3>
+              <div class="stack-list">
+                <div class="stack-item"><strong>Publica libros</strong><span>Crea fichas manualmente o con Open Library.</span></div>
+                <div class="stack-item"><strong>Edita sus libros</strong><span>Actualiza datos, precio, estado o descripci&oacute;n.</span></div>
+                <div class="stack-item"><strong>Gestiona biblioteca</strong><span>Retira, reactiva o elimina sus publicaciones.</span></div>
+              </div>
+            </div>
+            <div class="stack-column" style="border-color: rgba(212, 175, 110, 0.28)">
+              <h3 style="color: #d4af6e">Admin</h3>
+              <div class="stack-list">
+                <div class="stack-item"><strong>Rol especial</strong><span>Tiene acceso a rutas reservadas de administraci&oacute;n.</span></div>
+                <div class="stack-item"><strong>Permisos ampliados</strong><span>Puede actuar sobre recursos cuando el backend lo permite.</span></div>
+                <div class="stack-item"><strong>Supervisi&oacute;n</strong><span>Preparado para futuras gestiones de usuarios y contenido.</span></div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="reveal"
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 12px;
+            "
+          >
+            <div
+              style="
+                background: rgba(94, 201, 138, 0.06);
+                border: 1px solid rgba(94, 201, 138, 0.18);
+                border-radius: 12px;
+                padding: 12px 14px;
+              "
+            >
+              <div class="hero-info-title" style="color: #5ec98a">
+                Roles combinables
+              </div>
+              <p style="font-size: 0.7rem; color: #b8d4be; line-height: 1.45">
+                Un mismo usuario puede vender sus libros y tambi&eacute;n comprar,
+                reservar o guardar favoritos de otros usuarios.
+              </p>
+            </div>
+            <div
+              style="
+                background: rgba(212, 175, 110, 0.06);
+                border: 1px solid rgba(212, 175, 110, 0.18);
+                border-radius: 12px;
+                padding: 12px 14px;
+              "
+            >
+              <div class="hero-info-title" style="color: #d4af6e">
+                Biblioteca propia
+              </div>
+              <p style="font-size: 0.7rem; color: #b8d4be; line-height: 1.45">
+                Cada usuario administra su espacio: libros publicados, reservas,
+                favoritos, edici&oacute;n, retirada y reactivaci&oacute;n.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 4: ARQUITECTURA TECNICA -->
+      <div class="slide slide-4" data-slide="4">
         <div class="gradient-mesh">
           <div
             class="blob"
@@ -1395,8 +1603,8 @@
         </div>
       </div>
 
-      <!-- SLIDE 4: RESULTADO CONSEGUIDO -->
-      <div class="slide slide-4" data-slide="4">
+      <!-- SLIDE 5: RESULTADO CONSEGUIDO -->
+      <div class="slide slide-5" data-slide="5">
         <div class="gradient-mesh">
           <div
             class="blob"
@@ -1652,8 +1860,8 @@
         </div>
       </div>
 
-      <!-- SLIDE 5: DEPLOYMENT -->
-      <div class="slide slide-5" data-slide="5">
+      <!-- SLIDE 6: DEPLOYMENT -->
+      <div class="slide slide-6" data-slide="6">
         <div class="gradient-mesh">
           <div
             class="blob"
@@ -1921,8 +2129,8 @@
         </div>
       </div>
 
-      <!-- SLIDE 6: CIERRE -->
-      <div class="slide slide-6" data-slide="6">
+      <!-- SLIDE 7: CIERRE -->
+      <div class="slide slide-7" data-slide="7">
         <div class="gradient-mesh">
           <div
             class="blob"
@@ -1978,7 +2186,11 @@
       <button class="nav-btn" onclick="changeSlide(1)" aria-label="Siguiente">
         <svg class="icon" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
       </button>
-      <span class="slide-counter" id="counter">1 / 6</span>
+      <span class="slide-counter" id="counter">1 / 7</span>
+    </div>
+
+    <div class="talk-timer" id="talkTimer" aria-label="Cron&oacute;metro">
+      00:00 / 05:00
     </div>
 
     <script>
@@ -1986,6 +2198,28 @@
       const total = document.querySelectorAll(".slide").length;
       const dotsContainer = document.getElementById("dots");
       const counter = document.getElementById("counter");
+      const talkTimer = document.getElementById("talkTimer");
+      const talkStartKey = "bibliomarket-talk-start";
+      const savedTalkStart = Number(sessionStorage.getItem(talkStartKey));
+      const talkStart = savedTalkStart || Date.now();
+      if (!savedTalkStart) {
+        sessionStorage.setItem(talkStartKey, String(talkStart));
+      }
+      const talkLimitSeconds = 5 * 60;
+      function formatTime(totalSeconds) {
+        const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
+        const seconds = String(totalSeconds % 60).padStart(2, "0");
+        return minutes + ":" + seconds;
+      }
+      function updateTalkTimer() {
+        const elapsed = Math.floor((Date.now() - talkStart) / 1000);
+        talkTimer.textContent =
+          formatTime(elapsed) + " / " + formatTime(talkLimitSeconds);
+        talkTimer.classList.toggle("warning", elapsed >= 240 && elapsed < talkLimitSeconds);
+        talkTimer.classList.toggle("over", elapsed >= talkLimitSeconds);
+      }
+      updateTalkTimer();
+      setInterval(updateTalkTimer, 1000);
       for (let i = 1; i <= total; i++) {
         const dot = document.createElement("div");
         dot.className = "dot" + (i === 1 ? " active" : "");
