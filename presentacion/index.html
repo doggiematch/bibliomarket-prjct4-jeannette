@@ -132,21 +132,85 @@
         background: #5ec98a;
         box-shadow: 0 0 12px rgba(94, 201, 138, 0.65);
       }
+      .talk-timer-time {
+        min-width: 96px;
+      }
+      .timer-toggle {
+        width: 22px;
+        height: 22px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(94, 201, 138, 0.24);
+        border-radius: 50%;
+        background: rgba(94, 201, 138, 0.1);
+        color: #5ec98a;
+        cursor: pointer;
+        padding: 0;
+      }
+      .timer-toggle svg {
+        width: 12px;
+        height: 12px;
+      }
+      .timer-toggle .pause-icon {
+        display: none;
+      }
+      .talk-timer.running .timer-toggle .play-icon {
+        display: none;
+      }
+      .talk-timer.running .timer-toggle .pause-icon {
+        display: block;
+      }
       .talk-timer.warning {
         border-color: rgba(212, 175, 110, 0.42);
         color: #d4af6e;
+        animation: timer-heartbeat 0.9s ease-in-out infinite;
       }
       .talk-timer.warning::before {
         background: #d4af6e;
         box-shadow: 0 0 12px rgba(212, 175, 110, 0.65);
       }
+      .talk-timer.warning .timer-toggle {
+        border-color: rgba(212, 175, 110, 0.34);
+        background: rgba(212, 175, 110, 0.12);
+        color: #d4af6e;
+      }
       .talk-timer.over {
         border-color: rgba(236, 112, 99, 0.45);
         color: #ec7063;
+        animation: none;
       }
       .talk-timer.over::before {
         background: #ec7063;
         box-shadow: 0 0 12px rgba(236, 112, 99, 0.65);
+      }
+      .talk-timer.over .timer-toggle {
+        border-color: rgba(236, 112, 99, 0.3);
+        background: rgba(236, 112, 99, 0.1);
+        color: #ec7063;
+        cursor: default;
+        opacity: 0.65;
+      }
+      @keyframes timer-heartbeat {
+        0%,
+        100% {
+          transform: scale(1);
+          box-shadow: 0 0 0 rgba(212, 175, 110, 0);
+        }
+        18% {
+          transform: scale(1.09);
+          box-shadow: 0 0 24px rgba(212, 175, 110, 0.22);
+        }
+        34% {
+          transform: scale(1);
+        }
+        52% {
+          transform: scale(1.06);
+          box-shadow: 0 0 18px rgba(212, 175, 110, 0.16);
+        }
+        70% {
+          transform: scale(1);
+        }
       }
       .nav-btn {
         width: 38px;
@@ -393,6 +457,30 @@
         gap: 0.5rem;
         align-items: baseline;
       }
+      .schema-block {
+        font-size: 0.64rem;
+        line-height: 1.52;
+      }
+      .schema-block .code-line {
+        display: block;
+        margin-bottom: 0.24rem;
+        overflow-wrap: anywhere;
+      }
+      .schema-section-title {
+        color: #eef5f0;
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        margin: 0.34rem 0 0.28rem;
+        text-transform: uppercase;
+      }
+      .schema-section-title:first-child {
+        margin-top: 0;
+      }
+      .schema-boxes {
+        display: grid;
+        gap: 8px;
+      }
       .c-method {
         color: #d4af6e;
       }
@@ -576,22 +664,25 @@
       }
       .hero-grid {
         display: grid;
-        grid-template-columns: 1.1fr 1fr;
-        gap: 3rem;
-        align-items: end;
+        grid-template-columns: minmax(0, 1fr) 250px;
+        gap: 2rem;
+        align-items: stretch;
         transform: translateY(-28px);
       }
       .hero-left {
-        max-width: 540px;
+        max-width: none;
       }
       .hero-about-card {
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
         gap: 10px;
-        width: min(100%, 250px);
+        width: 250px;
+        min-height: 405px;
         align-self: flex-end;
-        margin-bottom: 18px;
-        padding: 10px 12px;
+        margin-bottom: 0;
+        padding: 18px;
         background: rgba(94, 201, 138, 0.06);
         border: 1px solid rgba(94, 201, 138, 0.18);
         border-radius: 8px;
@@ -611,14 +702,14 @@
       }
       .hero-about-card h3 {
         color: #eef5f0;
-        font-size: 0.78rem;
+        font-size: 0.95rem;
         font-weight: 700;
-        margin-bottom: 2px;
+        margin-bottom: 6px;
       }
       .hero-about-card p {
         color: #6e9478;
-        font-size: 0.65rem;
-        line-height: 1.35;
+        font-size: 0.72rem;
+        line-height: 1.45;
       }
       .hero-info-grid {
         display: grid;
@@ -630,7 +721,7 @@
         background: rgba(255, 255, 255, 0.04);
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 8px;
-        padding: 9px 11px;
+        padding: 12px 14px;
       }
       .hero-info-icon {
         display: block;
@@ -712,7 +803,20 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
+        height: 100%;
+        align-items: flex-end;
         padding-bottom: 2px;
+      }
+      .slide-1 .hero-mockup > :not(.hero-about-card) {
+        display: none !important;
+      }
+      .slide-1 .book-card,
+      .slide-1 .intro-icon-card {
+        display: none !important;
+      }
+      .slide-1 .hero-mockup {
+        justify-content: flex-end;
+        padding-bottom: 44px;
       }
       @media (prefers-reduced-motion: reduce) {
         *,
@@ -744,6 +848,13 @@
       <symbol id="icon-clock" viewBox="0 0 24 24">
         <circle cx="12" cy="12" r="9" />
         <path d="M12 7v5l3 2" />
+      </symbol>
+      <symbol id="icon-play" viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7Z" />
+      </symbol>
+      <symbol id="icon-pause" viewBox="0 0 24 24">
+        <path d="M8 5v14" />
+        <path d="M16 5v14" />
       </symbol>
       <symbol id="icon-target" viewBox="0 0 24 24">
         <circle cx="12" cy="12" r="9" />
@@ -986,154 +1097,10 @@
                   </p>
                 </div>
               </div>
-              <div class="book-card">
-                <div
-                  style="
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: flex-start;
-                    margin-bottom: 8px;
-                  "
-                >
-                  <div>
-                    <div
-                      style="
-                        font-weight: 700;
-                        font-size: 0.82rem;
-                        color: #eef5f0;
-                        margin-bottom: 2px;
-                      "
-                    >
-                      Marilyn Monroe
-                    </div>
-                    <div style="font-size: 0.68rem; color: #6e9478">
-                      ISBN: 9788433966551
-                    </div>
-                  </div>
-                  <span class="status-badge status-available"
-                    ><svg class="icon icon-fill" aria-hidden="true"><use href="#icon-circle"></use></svg> Disponible</span>
-                </div>
-                <div
-                  style="
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                  "
-                >
-                  <div style="display: flex; gap: 6px; align-items: center">
-                    <div
-                      style="
-                        width: 28px;
-                        height: 28px;
-                        border-radius: 50%;
-                        background: linear-gradient(135deg, #5ec98a, #4ab3d0);
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        font-size: 0.65rem;
-                        font-weight: 700;
-                        color: #0f1a14;
-                      "
-                    >
-                      C
-                    </div>
-                    <span style="font-size: 0.68rem; color: #6e9478"
-                      >Carlos · Buen estado</span
-                    >
-                  </div>
-                  <span
-                    style="font-size: 0.9rem; font-weight: 700; color: #d4af6e"
-                    >12 €</span
-                  >
-                </div>
-                <div style="display: flex; gap: 6px; margin-top: 8px">
-                  <button class="btn-primary-sm">
-                    <svg class="icon icon-btn icon-gold" aria-hidden="true"><use href="#icon-bookmark"></use></svg>Reservar</button
-                  ><button class="btn-ghost-sm">
-                    <svg class="icon icon-btn" aria-hidden="true"
-                      ><use href="#icon-heart"></use></svg
-                    >
-                    Favorito
-                  </button>
-                </div>
-              </div>
-              <div class="book-card">
-                <div
-                  style="
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: flex-start;
-                    margin-bottom: 8px;
-                  "
-                >
-                  <div>
-                    <div
-                      style="
-                        font-weight: 700;
-                        font-size: 0.82rem;
-                        color: #eef5f0;
-                        margin-bottom: 2px;
-                      "
-                    >
-                      El Nombre del Viento
-                    </div>
-                    <div style="font-size: 0.68rem; color: #6e9478">
-                      Patrick Rothfuss · Fantasía
-                    </div>
-                  </div>
-                  <span class="status-badge status-reserved"
-                    ><svg class="icon icon-fill" aria-hidden="true"><use href="#icon-circle"></use></svg> Reservado</span>
-                </div>
-                <div
-                  style="
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                  "
-                >
-                  <span style="font-size: 0.68rem; color: #6e9478"
-                    >Ana · Como nuevo</span
-                  ><span
-                    style="font-size: 0.9rem; font-weight: 700; color: #d4af6e"
-                    >8 €</span
-                  >
-                </div>
-              </div>
-              <div
-                style="
-                  display: grid;
-                  grid-template-columns: repeat(4, 1fr);
-                  gap: 7px;
-                "
-              >
-                <div class="intro-icon-card">
-                  <svg class="icon icon-card icon-blue" aria-hidden="true"><use href="#icon-upload"></use></svg>
-                  <div style="font-size: 0.6rem; color: #6e9478">Publicar</div>
-                </div>
-                <div class="intro-icon-card">
-                  <svg class="icon icon-card icon-blue" aria-hidden="true"
-                    ><use href="#icon-search"></use></svg
-                  >
-                  <div style="font-size: 0.6rem; color: #6e9478">Buscar</div>
-                </div>
-                <div class="intro-icon-card">
-                  <svg class="icon icon-card icon-gold" aria-hidden="true"
-                    ><use href="#icon-bookmark"></use></svg
-                  >
-                  <div style="font-size: 0.6rem; color: #6e9478">Reservar</div>
-                </div>
-                <div class="intro-icon-card">
-                  <svg class="icon icon-card icon-green" aria-hidden="true"
-                    ><use href="#icon-heart"></use></svg
-                  >
-                  <div style="font-size: 0.6rem; color: #6e9478">Favoritos</div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
-
       <!-- SLIDE 2: TECNOLOGIAS USADAS -->
       <div class="slide slide-2" data-slide="2">
         <div class="gradient-mesh">
@@ -1458,7 +1425,7 @@
             );
           "
         ></div>
-        <div class="content">
+        <div class="content" style="transform: translateY(-32px)">
           <div
             class="reveal"
             style="
@@ -1501,7 +1468,7 @@
             Arquitectura t&eacute;cnica
           </h2>
           <div
-            style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px"
+            style="display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 14px"
           >
             <div class="reveal">
               <div
@@ -1516,20 +1483,27 @@
               >
                 Prisma schema
               </div>
-              <div class="code-block" style="margin-bottom: 8px">
-                <div class="code-line"><span class="c-kw">model</span><span class="c-path"> User</span><span style="color: #6e9478"> {</span></div>
-                <div class="code-line" style="padding-left: 0.8rem"><span class="c-mid">id</span><span style="color: #6e9478">, email, password, role</span></div>
-                <div class="code-line" style="padding-left: 0.8rem"><span class="c-mid">books</span><span style="color: #6e9478">, reservations, favorites</span></div>
-                <div class="code-line"><span style="color: #6e9478">}</span></div>
-                <div class="code-line"><span class="c-kw">model</span><span class="c-path"> Book</span><span style="color: #6e9478"> {</span></div>
-                <div class="code-line" style="padding-left: 0.8rem"><span class="c-mid">title</span><span style="color: #6e9478">, author, isbn, price</span></div>
-                <div class="code-line" style="padding-left: 0.8rem"><span class="c-mid">status</span><span style="color: #6e9478">, condition, ownerId</span></div>
-                <div class="code-line"><span style="color: #6e9478">}</span></div>
-                <div class="code-line"><span class="c-kw">model</span><span class="c-path"> Reservation</span><span style="color: #6e9478"> -> user + book</span></div>
-                <div class="code-line"><span class="c-kw">model</span><span class="c-path"> Favorite</span><span style="color: #6e9478"> -> @@unique([userId, bookId])</span></div>
-              </div>
-              <div style="display: flex; flex-wrap: wrap; gap: 4px">
-                <span class="enum-badge enum-status">AVAILABLE</span><span class="enum-badge enum-status">RESERVED</span><span class="enum-badge enum-res">PENDING</span><span class="enum-badge enum-cond">BuenEstado</span>
+              <div class="schema-boxes">
+                <div class="code-block schema-block">
+                <div class="schema-section-title">Models</div>
+                <div class="code-line"><span class="c-kw">model</span><span class="c-path"> User</span><span style="color: #6e9478">: id, email, password, name, role, bio, createdAt</span></div>
+                <div class="code-line" style="padding-left: 0.8rem"><span class="c-mid">rel</span><span style="color: #6e9478"> books[], reservations[], favorites[]</span></div>
+                <div class="code-line"><span class="c-kw">model</span><span class="c-path"> Genre</span><span style="color: #6e9478">: id, name</span></div>
+                <div class="code-line" style="padding-left: 0.8rem"><span class="c-mid">rel</span><span style="color: #6e9478"> books[]</span></div>
+                <div class="code-line"><span class="c-kw">model</span><span class="c-path"> Book</span><span style="color: #6e9478">: id, title, author, isbn, coverUrl, year, language, synopsis, condition, price, status, description, createdAt, userId, genreId</span></div>
+                <div class="code-line" style="padding-left: 0.8rem"><span class="c-mid">rel</span><span style="color: #6e9478"> user, genre, reservations[], favorites[]</span></div>
+                <div class="code-line"><span class="c-kw">model</span><span class="c-path"> Reservation</span><span style="color: #6e9478">: id, status, expiresAt, createdAt, bookId, buyerId</span></div>
+                <div class="code-line" style="padding-left: 0.8rem"><span class="c-mid">rel</span><span style="color: #6e9478"> book, buyer</span></div>
+                <div class="code-line"><span class="c-kw">model</span><span class="c-path"> Favorite</span><span style="color: #6e9478">: id, createdAt, bookId, userId</span></div>
+                <div class="code-line" style="padding-left: 0.8rem"><span class="c-mid">rel</span><span style="color: #6e9478"> book, user, @@unique([bookId, userId])</span></div>
+                </div>
+                <div class="code-block schema-block">
+                <div class="schema-section-title">Enums</div>
+                <div class="code-line"><span class="c-kw">enum</span><span class="c-path"> Role</span><span style="color: #6e9478">: USER, ADMIN</span></div>
+                <div class="code-line"><span class="c-kw">enum</span><span class="c-path"> Condition</span><span style="color: #6e9478">: ComoNuevo, BuenEstado, Aceptable, ConDefectos</span></div>
+                <div class="code-line"><span class="c-kw">enum</span><span class="c-path"> BookStatus</span><span style="color: #6e9478">: AVAILABLE, RESERVED, SOLD, CANCELLED</span></div>
+                <div class="code-line"><span class="c-kw">enum</span><span class="c-path"> ReservationStatus</span><span style="color: #6e9478">: PENDING, CONFIRMED, CANCELLED, EXPIRED</span></div>
+                </div>
               </div>
             </div>
             <div class="reveal">
@@ -2190,7 +2164,11 @@
     </div>
 
     <div class="talk-timer" id="talkTimer" aria-label="Cron&oacute;metro">
-      00:00 / 05:00
+      <button class="timer-toggle" id="timerToggle" type="button" aria-label="Iniciar cron&oacute;metro">
+        <svg class="play-icon" aria-hidden="true"><use href="#icon-play"></use></svg>
+        <svg class="pause-icon" aria-hidden="true"><use href="#icon-pause"></use></svg>
+      </button>
+      <span class="talk-timer-time" id="talkTimerTime">00:00 / 05:00</span>
     </div>
 
     <script>
@@ -2199,27 +2177,83 @@
       const dotsContainer = document.getElementById("dots");
       const counter = document.getElementById("counter");
       const talkTimer = document.getElementById("talkTimer");
-      const talkStartKey = "bibliomarket-talk-start";
-      const savedTalkStart = Number(sessionStorage.getItem(talkStartKey));
-      const talkStart = savedTalkStart || Date.now();
-      if (!savedTalkStart) {
-        sessionStorage.setItem(talkStartKey, String(talkStart));
-      }
+      const talkTimerTime = document.getElementById("talkTimerTime");
+      const timerToggle = document.getElementById("timerToggle");
+      const talkElapsedKey = "bibliomarket-talk-elapsed";
+      const talkRunningKey = "bibliomarket-talk-running";
+      const talkLastTickKey = "bibliomarket-talk-last-tick";
       const talkLimitSeconds = 5 * 60;
+      let talkElapsedSeconds = Math.min(
+        Number(sessionStorage.getItem(talkElapsedKey)) || 0,
+        talkLimitSeconds,
+      );
+      let talkIsRunning =
+        sessionStorage.getItem(talkRunningKey) === "true" &&
+        talkElapsedSeconds < talkLimitSeconds;
+      let talkLastTick = Number(sessionStorage.getItem(talkLastTickKey)) || Date.now();
+      let talkTimerInterval;
       function formatTime(totalSeconds) {
         const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
         const seconds = String(totalSeconds % 60).padStart(2, "0");
         return minutes + ":" + seconds;
       }
+      function persistTalkTimer() {
+        sessionStorage.setItem(talkElapsedKey, String(talkElapsedSeconds));
+        sessionStorage.setItem(talkRunningKey, String(talkIsRunning));
+        sessionStorage.setItem(talkLastTickKey, String(talkLastTick));
+      }
+      function syncRunningElapsed() {
+        if (!talkIsRunning) return;
+        const now = Date.now();
+        const delta = Math.floor((now - talkLastTick) / 1000);
+        if (delta <= 0) return;
+        talkElapsedSeconds = Math.min(talkElapsedSeconds + delta, talkLimitSeconds);
+        talkLastTick += delta * 1000;
+      }
+      function updateTimerToggle() {
+        talkTimer.classList.toggle("running", talkIsRunning);
+        timerToggle.disabled = talkElapsedSeconds >= talkLimitSeconds;
+        timerToggle.setAttribute(
+          "aria-label",
+          talkIsRunning ? "Pausar cronometro" : "Iniciar cronometro",
+        );
+      }
       function updateTalkTimer() {
-        const elapsed = Math.floor((Date.now() - talkStart) / 1000);
-        talkTimer.textContent =
-          formatTime(elapsed) + " / " + formatTime(talkLimitSeconds);
-        talkTimer.classList.toggle("warning", elapsed >= 240 && elapsed < talkLimitSeconds);
-        talkTimer.classList.toggle("over", elapsed >= talkLimitSeconds);
+        syncRunningElapsed();
+        talkTimerTime.textContent =
+          formatTime(talkElapsedSeconds) + " / " + formatTime(talkLimitSeconds);
+        talkTimer.classList.toggle(
+          "warning",
+          talkElapsedSeconds >= 240 && talkElapsedSeconds < talkLimitSeconds,
+        );
+        talkTimer.classList.toggle("over", talkElapsedSeconds >= talkLimitSeconds);
+        if (talkElapsedSeconds >= talkLimitSeconds) {
+          talkIsRunning = false;
+          clearInterval(talkTimerInterval);
+        }
+        updateTimerToggle();
+        persistTalkTimer();
+      }
+      function setTalkTimerRunning(nextIsRunning) {
+        if (talkElapsedSeconds >= talkLimitSeconds) return;
+        syncRunningElapsed();
+        talkIsRunning = nextIsRunning;
+        talkLastTick = Date.now();
+        clearInterval(talkTimerInterval);
+        if (talkIsRunning) {
+          talkTimerInterval = setInterval(updateTalkTimer, 250);
+        }
+        updateTalkTimer();
+      }
+      timerToggle.addEventListener("click", () => {
+        setTalkTimerRunning(!talkIsRunning);
+      });
+      if (talkIsRunning) {
+        syncRunningElapsed();
+        talkLastTick = Date.now();
+        talkTimerInterval = setInterval(updateTalkTimer, 250);
       }
       updateTalkTimer();
-      setInterval(updateTalkTimer, 1000);
       for (let i = 1; i <= total; i++) {
         const dot = document.createElement("div");
         dot.className = "dot" + (i === 1 ? " active" : "");
